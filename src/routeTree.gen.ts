@@ -144,10 +144,10 @@ export interface FileRoutesByFullPath {
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/stripe/webhook': typeof ApiStripeWebhookRoute
   '/dashboard/community/create-post': typeof DashboardCommunityCreatePostRoute
-  '/dashboard/community': typeof DashboardCommunityIndexRoute
-  '/profile/$userId': typeof ProfileUserIdIndexRoute
+  '/dashboard/community/': typeof DashboardCommunityIndexRoute
+  '/profile/$userId/': typeof ProfileUserIdIndexRoute
   '/dashboard/community/post/$postId/edit': typeof DashboardCommunityPostPostIdEditRoute
-  '/dashboard/community/post/$postId': typeof DashboardCommunityPostPostIdIndexRoute
+  '/dashboard/community/post/$postId/': typeof DashboardCommunityPostPostIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -209,10 +209,10 @@ export interface FileRouteTypes {
     | '/api/auth/$'
     | '/api/stripe/webhook'
     | '/dashboard/community/create-post'
-    | '/dashboard/community'
-    | '/profile/$userId'
+    | '/dashboard/community/'
+    | '/profile/$userId/'
     | '/dashboard/community/post/$postId/edit'
-    | '/dashboard/community/post/$postId'
+    | '/dashboard/community/post/$postId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -356,14 +356,14 @@ declare module '@tanstack/react-router' {
     '/profile/$userId/': {
       id: '/profile/$userId/'
       path: '/profile/$userId'
-      fullPath: '/profile/$userId'
+      fullPath: '/profile/$userId/'
       preLoaderRoute: typeof ProfileUserIdIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/community/': {
       id: '/dashboard/community/'
       path: '/community'
-      fullPath: '/dashboard/community'
+      fullPath: '/dashboard/community/'
       preLoaderRoute: typeof DashboardCommunityIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
@@ -391,7 +391,7 @@ declare module '@tanstack/react-router' {
     '/dashboard/community/post/$postId/': {
       id: '/dashboard/community/post/$postId/'
       path: '/community/post/$postId'
-      fullPath: '/dashboard/community/post/$postId'
+      fullPath: '/dashboard/community/post/$postId/'
       preLoaderRoute: typeof DashboardCommunityPostPostIdIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
