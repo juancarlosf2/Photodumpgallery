@@ -15,7 +15,11 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
       tanstackStart(),
       nitro(),
-      viteReact(),
+      viteReact({
+        babel: {
+          plugins: ["babel-plugin-react-compiler"],
+        },
+      }),
     ],
   };
 });

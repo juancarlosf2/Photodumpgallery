@@ -27,7 +27,7 @@ An online community and training platform for aspiring full stack engineers. Mas
 
 - Node.js (v18 or higher)
 - PostgreSQL (via Docker or local installation)
-- npm or yarn
+- bun
 
 ## 🏃 Getting Started
 
@@ -41,7 +41,7 @@ cd full-stack-campus
 ### 2. Install dependencies
 
 ```bash
-npm install
+bun install
 ```
 
 ### 3. Set up environment variables
@@ -56,19 +56,19 @@ Copy `.env.example` to `.env` and configure:
 ### 4. Start the database
 
 ```bash
-npm run db:up
+bun run db:up
 ```
 
 ### 5. Run migrations
 
 ```bash
-npm run db:migrate
+bun run db:migrate
 ```
 
 ### 6. Start the development server
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 The application will be available at `http://localhost:3000`
@@ -78,25 +78,25 @@ The application will be available at `http://localhost:3000`
 ### Development
 
 ```bash
-npm run dev          # Start development server on port 3000
-npm run build        # Build for production (includes type checking)
-npm run start        # Start production server
+bun run dev          # Start development server on port 3000
+bun run build        # Build for production (includes type checking)
+bun run start        # Start production server
 ```
 
 ### Database
 
 ```bash
-npm run db:up        # Start PostgreSQL Docker container
-npm run db:down      # Stop PostgreSQL Docker container
-npm run db:migrate   # Run database migrations
-npm run db:generate  # Generate new migration files
-npm run db:studio    # Open Drizzle Studio for database management
+bun run db:up        # Start PostgreSQL Docker container
+bun run db:down      # Stop PostgreSQL Docker container
+bun run db:migrate   # Run database migrations
+bun run db:generate  # Generate new migration files
+bun run db:studio    # Open Drizzle Studio for database management
 ```
 
 ### Payments
 
 ```bash
-npm run stripe:listen  # Listen for Stripe webhooks in development
+bun run stripe:listen  # Listen for Stripe webhooks in development
 ```
 
 ## 📁 Project Structure
