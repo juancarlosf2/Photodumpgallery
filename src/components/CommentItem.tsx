@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Clock, MessageSquare, Edit, Trash2 } from "lucide-react";
-import { Card, CardContent } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
+import { Button, Card } from "@heroui/react";
 import { UserAvatarLink } from "~/components/UserAvatarLink";
 import { UserNameLink } from "~/components/UserNameLink";
 import { formatRelativeTime } from "~/utils/song";
@@ -55,7 +54,7 @@ export function CommentItem({
   return (
     <div className={depth > 0 ? "ml-6 border-l-2 border-border pl-4" : ""}>
       <Card>
-        <CardContent className="pt-4 pb-3">
+        <Card.Content className="pt-4 pb-3">
           <div className="flex gap-3">
             <UserAvatarLink
               userId={comment.user.id}
@@ -104,7 +103,7 @@ export function CommentItem({
                     variant="ghost"
                     size="sm"
                     className="h-7 text-xs text-muted-foreground hover:text-foreground"
-                    onClick={() => setShowReplyForm(!showReplyForm)}
+                    onPress={() => setShowReplyForm(!showReplyForm)}
                   >
                     <MessageSquare className="h-3 w-3 mr-1" />
                     Reply
@@ -116,7 +115,7 @@ export function CommentItem({
                       variant="ghost"
                       size="sm"
                       className="h-7 text-xs text-muted-foreground hover:text-foreground"
-                      onClick={() => setEditDialogOpen(true)}
+                      onPress={() => setEditDialogOpen(true)}
                     >
                       <Edit className="h-3 w-3 mr-1" />
                       Edit
@@ -125,7 +124,7 @@ export function CommentItem({
                       variant="ghost"
                       size="sm"
                       className="h-7 text-xs text-destructive hover:text-destructive"
-                      onClick={() => setDeleteDialogOpen(true)}
+                      onPress={() => setDeleteDialogOpen(true)}
                     >
                       <Trash2 className="h-3 w-3 mr-1" />
                       Delete
@@ -135,7 +134,7 @@ export function CommentItem({
               </div>
             </div>
           </div>
-        </CardContent>
+        </Card.Content>
       </Card>
 
       {/* Reply Form */}

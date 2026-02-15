@@ -13,14 +13,11 @@ import {
 } from "~/hooks/useSubscription";
 import { useUpdateUserProfile, useDeleteUserAccount } from "~/hooks/useProfile";
 import { uploadImageWithPresignedUrl } from "~/utils/storage/helpers";
-import { toast } from "sonner";
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { authClient } from "~/lib/auth-client";
 import { useUserAvatar } from "~/hooks/useUserAvatar";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
+import { Button, Input, Label, Modal, toast } from "@heroui/react";
 import {
   Panel,
   PanelContent,
@@ -28,14 +25,6 @@ import {
   PanelTitle,
 } from "~/components/ui/panel";
 import { UserAvatar } from "~/components/UserAvatar";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -205,8 +194,8 @@ function AccountDeletionSettings() {
               permanently removed.
             </p>
             <Button
-              variant="destructive"
-              onClick={handleDeleteRequest}
+              variant="danger"
+              onPress={handleDeleteRequest}
               className="flex items-center gap-2"
             >
               <Trash2 className="h-4 w-4" />
@@ -216,89 +205,98 @@ function AccountDeletionSettings() {
         </PanelContent>
       </Panel>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-red-600 dark:text-red-400">
-              <AlertTriangle className="h-5 w-5" />
-              Confirm Account Deletion
-            </DialogTitle>
-            <DialogDescription className="text-left">
-              This will permanently delete your account and all data associated
-              with it.
-            </DialogDescription>
-          </DialogHeader>
+      <Modal isOpen={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <span className="hidden" />
+        <Modal.Backdrop variant="blur">
+          <Modal.Container placement="auto">
+            <Modal.Dialog className="sm:max-w-md">
+              <Modal.CloseTrigger />
+              <Modal.Header>
+                <Modal.Heading className="flex items-center gap-2 text-red-600 dark:text-red-400">
+                  <AlertTriangle className="h-5 w-5" />
+                  Confirm Account Deletion
+                </Modal.Heading>
+              </Modal.Header>
 
-          <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg p-4 my-4">
-            <div className="space-y-3">
-              <p className="text-sm text-foreground">
-                The following data will be permanently deleted:
-              </p>
-              <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
-                <li>All liked posts and hearts</li>
-                <li>Your subscription and billing information</li>
-                <li>Your profile and account settings</li>
-              </ul>
-              <p className="text-sm font-semibold text-red-600 dark:text-red-400">
-                This action cannot be undone.
-              </p>
-            </div>
-          </div>
+              <Modal.Body>
+                <p className="text-left text-sm text-muted-foreground">
+                  This will permanently delete your account and all data associated
+                  with it.
+                </p>
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-foreground">
-                      To confirm, type your email address:
-                    </FormLabel>
-                    <p className="text-sm text-muted-foreground font-mono mb-2">
-                      {session?.user?.email}
+                <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 rounded-lg p-4 my-4">
+                  <div className="space-y-3">
+                    <p className="text-sm text-foreground">
+                      The following data will be permanently deleted:
                     </p>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder="Enter your email to confirm"
-                        className="border-red-300 dark:border-red-700 focus:border-red-500 dark:focus:border-red-400"
-                        disabled={deleteAccountMutation.isPending}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                    <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1">
+                      <li>All liked posts and hearts</li>
+                      <li>Your subscription and billing information</li>
+                      <li>Your profile and account settings</li>
+                    </ul>
+                    <p className="text-sm font-semibold text-red-600 dark:text-red-400">
+                      This action cannot be undone.
+                    </p>
+                  </div>
+                </div>
 
-              <DialogFooter className="flex gap-3 sm:justify-start">
-                <Button
-                  type="submit"
-                  variant="destructive"
-                  disabled={
-                    deleteAccountMutation.isPending || !form.formState.isValid
-                  }
-                  className="flex items-center gap-2"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  {deleteAccountMutation.isPending
-                    ? "Deleting..."
-                    : "Delete My Account"}
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleCancelDelete}
-                  disabled={deleteAccountMutation.isPending}
-                >
-                  Cancel
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground">
+                            To confirm, type your email address:
+                          </FormLabel>
+                          <p className="text-sm text-muted-foreground font-mono mb-2">
+                            {session?.user?.email}
+                          </p>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              type="email"
+                              placeholder="Enter your email to confirm"
+                              className="border-red-300 dark:border-red-700 focus:border-red-500 dark:focus:border-red-400"
+                              disabled={deleteAccountMutation.isPending}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <Modal.Footer className="flex gap-3 sm:justify-start">
+                      <Button
+                        type="submit"
+                        variant="danger"
+                        isDisabled={
+                          deleteAccountMutation.isPending || !form.formState.isValid
+                        }
+                        className="flex items-center gap-2"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        {deleteAccountMutation.isPending
+                          ? "Deleting..."
+                          : "Delete My Account"}
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onPress={handleCancelDelete}
+                        isDisabled={deleteAccountMutation.isPending}
+                      >
+                        Cancel
+                      </Button>
+                    </Modal.Footer>
+                  </form>
+                </Form>
+              </Modal.Body>
+            </Modal.Dialog>
+          </Modal.Container>
+        </Modal.Backdrop>
+      </Modal>
     </>
   );
 }
@@ -341,12 +339,12 @@ function ProfileSettings() {
       if (!file) return;
 
       if (!file.type.startsWith("image/")) {
-        toast.error("Please upload an image file");
+        toast.danger("Please upload an image file");
         return;
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        toast.error("File size must be less than 5MB");
+        toast.danger("File size must be less than 5MB");
         return;
       }
 
@@ -373,7 +371,7 @@ function ProfileSettings() {
         toast.success("Avatar uploaded successfully");
       } catch (error) {
         console.error("Avatar upload error:", error);
-        toast.error("Failed to upload avatar");
+        toast.danger("Failed to upload avatar");
       } finally {
         setIsUploading(false);
       }
@@ -471,7 +469,7 @@ function ProfileSettings() {
                         </FormControl>
                         <Button
                           type="submit"
-                          disabled={
+                          isDisabled={
                             updateProfileMutation.isPending ||
                             !form.formState.isDirty ||
                             !form.formState.isValid
@@ -598,7 +596,7 @@ function SettingsPage() {
       <Page>
         <AppBreadcrumb
           items={[
-            { label: "Dashboard", href: "/dashboard", icon: Home },
+            { label: "Dashboard", to: "/dashboard", icon: Home },
             { label: "Settings" },
           ]}
         />
@@ -638,7 +636,7 @@ function SettingsPage() {
     <Page>
       <AppBreadcrumb
         items={[
-          { label: "Dashboard", href: "/dashboard", icon: Home },
+          { label: "Dashboard", to: "/dashboard", icon: Home },
           { label: "Settings" },
         ]}
       />

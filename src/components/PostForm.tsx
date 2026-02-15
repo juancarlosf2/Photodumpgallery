@@ -4,9 +4,7 @@ import { z } from "zod";
 import { useState, useEffect } from "react";
 import { Loader2, MessageSquarePlus, Save } from "lucide-react";
 import { POST_CATEGORIES } from "~/fn/posts";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import { Button, Input, ListBox, Select, TextArea } from "@heroui/react";
 import {
   Form,
   FormControl,
@@ -16,13 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { MediaUploadToggle } from "~/components/MediaUploadToggle";
 import { AttachmentPreviewGrid } from "~/components/AttachmentPreviewGrid";
 import type { MediaUploadResult } from "~/utils/storage/media-helpers";
@@ -177,24 +168,34 @@ export function PostForm({
             <FormItem>
               <FormLabel className="text-base font-medium">Category</FormLabel>
               <Select
-                onValueChange={field.onChange}
                 value={field.value}
-                disabled={isPending}
+                onChange={(key) =>
+                  field.onChange(key as PostFormData["category"])
+                }
+                isDisabled={isPending}
+                placeholder="Select a category"
               >
                 <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
+                  <Select.Trigger className="w-full">
+                    <Select.Value />
+                    <Select.Indicator />
+                  </Select.Trigger>
                 </FormControl>
-                <SelectContent>
-                  {POST_CATEGORIES.map((category) => (
-                    <SelectItem key={category} value={category}>
-                      <div className="flex flex-col">
-                        <span>{CATEGORY_LABELS[category]}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
+                <Select.Popover>
+                  <ListBox>
+                    {POST_CATEGORIES.map((category) => (
+                      <ListBox.Item
+                        key={category}
+                        id={category}
+                        textValue={CATEGORY_LABELS[category]}
+                      >
+                        <div className="flex flex-col">
+                          <span>{CATEGORY_LABELS[category]}</span>
+                        </div>
+                      </ListBox.Item>
+                    ))}
+                  </ListBox>
+                </Select.Popover>
               </Select>
               <FormDescription>
                 {CATEGORY_DESCRIPTIONS[field.value]}
@@ -233,7 +234,7 @@ export function PostForm({
             <FormItem>
               <FormLabel className="text-base font-medium">Content *</FormLabel>
               <FormControl>
-                <Textarea
+                <TextArea
                   placeholder="What's on your mind?"
                   className="min-h-[200px] text-base resize-none"
                   disabled={isPending}
@@ -286,13 +287,13 @@ export function PostForm({
                 type="button"
                 variant="outline"
                 className="flex-1"
-                disabled={isPending}
-                onClick={onCancel}
+                isDisabled={isPending}
+                onPress={onCancel}
               >
                 {cancelLabel}
               </Button>
             )}
-            <Button type="submit" className="flex-1" disabled={isPending}>
+            <Button type="submit" className="flex-1" isDisabled={isPending}>
               {isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

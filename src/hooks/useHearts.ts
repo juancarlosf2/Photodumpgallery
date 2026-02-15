@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import { toggleHeartFn } from "~/fn/hearts";
 import { getHeartStatusQuery, getHeartCountQuery } from "~/queries/hearts";
 import { getErrorMessage } from "~/utils/error";
@@ -43,7 +43,7 @@ export function useToggleHeart() {
       );
     },
     onError: (error) => {
-      toast.error("Failed to update heart", {
+      toast.danger("Failed to update heart", {
         description: getErrorMessage(error),
       });
     },

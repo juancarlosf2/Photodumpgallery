@@ -13,19 +13,7 @@ import {
   Loader2,
   Save,
 } from "lucide-react";
-
-// Constants
-const MAX_BIO_LENGTH = 1000;
-const MAX_SKILL_LENGTH = 50;
-const MAX_SKILLS = 20;
-const MAX_LOOKING_FOR_LENGTH = 500;
-const BIO_WARNING_THRESHOLD = 900;
-const LOOKING_FOR_WARNING_THRESHOLD = 450;
-import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { Switch } from "~/components/ui/switch";
+import { Button, Input, Label, Switch, TextArea } from "@heroui/react";
 import {
   Panel,
   PanelContent,
@@ -49,6 +37,13 @@ import {
   useToggleProfileVisibility,
 } from "~/hooks/useProfile";
 import type { UserProfile } from "~/db/schema";
+
+const MAX_BIO_LENGTH = 1000;
+const MAX_SKILL_LENGTH = 50;
+const MAX_SKILLS = 20;
+const MAX_LOOKING_FOR_LENGTH = 500;
+const BIO_WARNING_THRESHOLD = 900;
+const LOOKING_FOR_WARNING_THRESHOLD = 450;
 
 const profileFormSchema = z.object({
   bio: z
@@ -187,10 +182,15 @@ export function ExtendedProfileForm() {
             </Label>
             <Switch
               id="visibility"
-              checked={profile?.isPublic ?? true}
-              onCheckedChange={handleToggleVisibility}
-              disabled={toggleVisibilityMutation.isPending}
-            />
+              aria-label="Profile visibility"
+              isSelected={profile?.isPublic ?? true}
+              onChange={handleToggleVisibility}
+              isDisabled={toggleVisibilityMutation.isPending}
+            >
+              <Switch.Control>
+                <Switch.Thumb />
+              </Switch.Control>
+            </Switch>
           </div>
         </div>
       </PanelHeader>
@@ -206,7 +206,7 @@ export function ExtendedProfileForm() {
                 <FormItem>
                   <FormLabel>Bio</FormLabel>
                   <FormControl>
-                    <Textarea
+                    <TextArea
                       {...field}
                       value={field.value || ""}
                       placeholder="Tell us about yourself, your background, and what you're passionate about..."
@@ -263,7 +263,7 @@ export function ExtendedProfileForm() {
                 <FormItem>
                   <FormLabel>What are you looking for?</FormLabel>
                   <FormControl>
-                    <Textarea
+                    <TextArea
                       {...field}
                       value={field.value || ""}
                       placeholder="Looking to collaborate on open source projects, seeking mentorship in backend development, open to freelance opportunities..."
@@ -389,7 +389,7 @@ export function ExtendedProfileForm() {
             <div className="flex justify-end pt-2">
               <Button
                 type="submit"
-                disabled={updateProfileMutation.isPending}
+                isDisabled={updateProfileMutation.isPending}
                 className="min-w-[140px]"
               >
                 {updateProfileMutation.isPending ? (

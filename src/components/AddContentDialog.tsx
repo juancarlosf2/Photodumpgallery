@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
+import { Modal } from "@heroui/react";
 import { ContentForm, type ContentSubmitData } from "~/components/ContentForm";
 import { useCreateModuleContent } from "~/hooks/useModules";
 
@@ -31,23 +25,32 @@ export function AddContentDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Add Content</DialogTitle>
-          <DialogDescription>
-            Add content to "{moduleTitle}". You can add videos, tasks, PDFs, images, or text.
-          </DialogDescription>
-        </DialogHeader>
-        <ContentForm
-          key={moduleId}
-          onSubmit={handleSubmit}
-          isPending={createContentMutation.isPending}
-          submitLabel="Add Content"
-          onCancel={() => onOpenChange(false)}
-          cancelLabel="Cancel"
-        />
-      </DialogContent>
-    </Dialog>
+    <Modal isOpen={open} onOpenChange={onOpenChange}>
+      <span className="hidden" />
+      <Modal.Backdrop variant="blur">
+        <Modal.Container placement="auto">
+          <Modal.Dialog className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+            <Modal.CloseTrigger />
+            <Modal.Header>
+              <Modal.Heading>Add Content</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="text-sm text-muted-foreground">
+                Add content to "{moduleTitle}". You can add videos, tasks, PDFs,
+                images, or text.
+              </p>
+              <ContentForm
+                key={moduleId}
+                onSubmit={handleSubmit}
+                isPending={createContentMutation.isPending}
+                submitLabel="Add Content"
+                onCancel={() => onOpenChange(false)}
+                cancelLabel="Cancel"
+              />
+            </Modal.Body>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 }

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   eventQueryOptions,
   eventsQueryOptions,
@@ -58,7 +58,7 @@ export function useCreateEvent() {
       queryClient.invalidateQueries({ queryKey: ["events"] });
     },
     onError: (error) => {
-      toast.error("Failed to create event", {
+      toast.danger("Failed to create event", {
         description: getErrorMessage(error),
       });
     },
@@ -83,7 +83,7 @@ export function useUpdateEvent() {
       queryClient.invalidateQueries({ queryKey: ["event"] });
     },
     onError: (error) => {
-      toast.error("Failed to update event", {
+      toast.danger("Failed to update event", {
         description: getErrorMessage(error),
       });
     },
@@ -104,7 +104,7 @@ export function useDeleteEvent() {
       queryClient.invalidateQueries({ queryKey: ["event"] });
     },
     onError: (error) => {
-      toast.error("Failed to delete event", {
+      toast.danger("Failed to delete event", {
         description: getErrorMessage(error),
       });
     },

@@ -1,5 +1,5 @@
 import { MessageSquare, Loader2 } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "@heroui/react";
 import { useStartConversation } from "~/hooks/useConversations";
 
 interface StartConversationButtonProps {
@@ -16,6 +16,10 @@ export function StartConversationButton({
   className,
 }: StartConversationButtonProps) {
   const startConversation = useStartConversation();
+  const resolvedVariant = variant === "default" ? "primary" : variant;
+  const resolvedSize = size === "default" ? "md" : size === "icon" ? "sm" : size;
+  const isIconOnly = size === "icon";
+  const label = "Send Message";
 
   const handleClick = () => {
     startConversation.mutate(userId);
@@ -23,18 +27,20 @@ export function StartConversationButton({
 
   return (
     <Button
-      variant={variant}
-      size={size}
-      onClick={handleClick}
-      disabled={startConversation.isPending}
+      variant={resolvedVariant}
+      size={resolvedSize}
+      isIconOnly={isIconOnly}
+      onPress={handleClick}
+      isDisabled={startConversation.isPending}
       className={className}
+      aria-label={isIconOnly ? label : undefined}
     >
       {startConversation.isPending ? (
-        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+        <Loader2 className={isIconOnly ? "h-4 w-4 animate-spin" : "h-4 w-4 animate-spin mr-2"} />
       ) : (
-        <MessageSquare className="h-4 w-4 mr-2" />
+        <MessageSquare className={isIconOnly ? "h-4 w-4" : "h-4 w-4 mr-2"} />
       )}
-      Send Message
+      {!isIconOnly && label}
     </Button>
   );
 }

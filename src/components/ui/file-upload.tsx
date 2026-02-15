@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Upload, File, X, AlertCircle } from "lucide-react";
 import { cn } from "~/lib/utils";
-import { Button } from "./button";
+import { Button } from "@heroui/react";
 
 interface FileUploadProps {
   onFilesSelected: (files: File[]) => void;
@@ -192,8 +192,8 @@ export function FileUpload({
                 variant="ghost"
                 size="sm"
                 className="h-8 w-8 p-0 hover:bg-green-100 dark:hover:bg-green-900/50"
-                onClick={(e) => {
-                  e.stopPropagation();
+                isIconOnly
+                onPress={() => {
                   removeFile(file);
                 }}
               >

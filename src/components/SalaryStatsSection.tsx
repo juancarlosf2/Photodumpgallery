@@ -1,5 +1,4 @@
 import { DollarSign, TrendingUp, Briefcase, Users } from "lucide-react";
-import { Card, CardContent } from "~/components/ui/card";
 import { FadeIn } from "~/components/ui/fade-in";
 
 export function SalaryStatsSection() {

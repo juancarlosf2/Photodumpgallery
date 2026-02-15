@@ -11,7 +11,7 @@ This is a TanStack Start full-stack React application with the following key arc
 - **Framework**: TanStack Start (full-stack React framework)
 - **Database**: PostgreSQL with Drizzle ORM for type-safe queries
 - **Authentication**: Better Auth with email/password authentication
-- **Styling**: Tailwind CSS with Radix UI components
+- **Styling**: Tailwind CSS with HeroUI v3 components
 - **File Storage**: AWS S3/R2 with presigned URL uploads
 - **Payments**: Stripe integration for subscriptions
 - **TypeScript**: Full type safety throughout
@@ -44,16 +44,16 @@ Core entities: `user`, `song`, `playlist`, `heart` (likes), with subscription an
 
 ```bash
 # Development
-npm run dev                 # Start development server on port 3000
-npm run build              # Build for production (includes type checking)
-npm run start              # Start production server
+bun run dev                 # Start development server on port 3000
+bun run build              # Build for production (includes type checking)
+bun run start              # Start production server
 
 # Database
-npm run db:up              # Start PostgreSQL Docker container
-npm run db:down            # Stop PostgreSQL Docker container
-npm run db:migrate         # Run database migrations
-npm run db:generate        # Generate new migration files
-npm run db:studio          # Open Drizzle Studio for database management
+bun run db:up              # Start PostgreSQL Docker container
+bun run db:down            # Stop PostgreSQL Docker container
+bun run db:migrate         # Run database migrations
+bun run db:generate        # Generate new migration files
+bun run db:studio          # Open Drizzle Studio for database management
 
 # Payments (if needed)
 npm run stripe:listen      # Listen for Stripe webhooks in development
@@ -86,6 +86,6 @@ npm run stripe:listen      # Listen for Stripe webhooks in development
 - **Authentication** - please see `docs/authentication.md` for information about how authentication is setup on this project.
 - **architecture** - please see `docs/architecture.md` for information about how the code is setup in a layered architecture on this project.
 - **subscriptions** - please see `docs/subscriptions.md` for learn about how user plans and subscriptions are setup.
-- **tanstack** - please see `docs/tanstack.md` for techincal implenetation detail on how to create tanstack start routes or server functions.
+- **tanstack** - please see `docs/tanstack.md` for technical implementation detail on how to create tanstack start routes or server functions.
 - **ux** - please see `docs/ux.md` for user experience guidelines to make sure this app feels consistent.
 - **file-uploads** - please see `docs/file-uploads.md` for more information about how file uploads work in our code base

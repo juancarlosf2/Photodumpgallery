@@ -4,24 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useDropzone } from "react-dropzone";
 import { Upload, Loader2, X, Image as ImageIcon } from "lucide-react";
-
-// Constants
-const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
-const MAX_IMAGE_SIZE_MB = 5;
-const MAX_TITLE_LENGTH = 100;
-const MAX_DESCRIPTION_LENGTH = 1000;
-const MAX_TECHNOLOGY_LENGTH = 50;
-const MAX_TECHNOLOGIES = 10;
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
+import { Button, Input, Modal, TextArea, toast } from "@heroui/react";
 import {
   Form,
   FormControl,
@@ -35,9 +18,15 @@ import { SkillsInput } from "~/components/SkillsInput";
 import { useCreatePortfolioItem, useUpdatePortfolioItem } from "~/hooks/usePortfolio";
 import { useImageUrl } from "~/hooks/useStorage";
 import { uploadImageWithPresignedUrl } from "~/utils/storage/helpers";
-import { toast } from "sonner";
 import { authClient } from "~/lib/auth-client";
 import type { PortfolioItem } from "~/db/schema";
+
+const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
+const MAX_IMAGE_SIZE_MB = 5;
+const MAX_TITLE_LENGTH = 100;
+const MAX_DESCRIPTION_LENGTH = 1000;
+const MAX_TECHNOLOGY_LENGTH = 50;
+const MAX_TECHNOLOGIES = 10;
 
 const portfolioItemSchema = z.object({
   title: z.string().min(1, "Title is required").max(MAX_TITLE_LENGTH),
@@ -113,12 +102,12 @@ export function PortfolioItemForm({
       if (!file) return;
 
       if (!file.type.startsWith("image/")) {
-        toast.error("Please upload an image file");
+        toast.danger("Please upload an image file");
         return;
       }
 
       if (file.size > MAX_IMAGE_SIZE_BYTES) {
-        toast.error(`File size must be less than ${MAX_IMAGE_SIZE_MB}MB`);
+        toast.danger(`File size must be less than ${MAX_IMAGE_SIZE_MB}MB`);
         return;
       }
 
@@ -145,7 +134,7 @@ export function PortfolioItemForm({
         toast.success("Image uploaded successfully");
       } catch (error) {
         console.error("Image upload error:", error);
-        toast.error("Failed to upload image");
+        toast.danger("Failed to upload image");
         setPreviewUrl(null);
       } finally {
         setIsUploading(false);
@@ -204,21 +193,24 @@ export function PortfolioItemForm({
   const displayImageUrl = previewUrl || existingImageUrl;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>
-            {isEditing ? "Edit Portfolio Item" : "Add Portfolio Item"}
-          </DialogTitle>
-          <DialogDescription>
-            {isEditing
-              ? "Update your project details below."
-              : "Showcase a project you've built or are working on."}
-          </DialogDescription>
-        </DialogHeader>
+    <Modal>
+      <Modal.Backdrop isOpen={open} onOpenChange={onOpenChange}>
+        <Modal.Container>
+          <Modal.Dialog className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
+            <Modal.Header>
+              <Modal.Heading>
+                {isEditing ? "Edit Portfolio Item" : "Add Portfolio Item"}
+              </Modal.Heading>
+              <p className="text-sm text-muted-foreground">
+                {isEditing
+                  ? "Update your project details below."
+                  : "Showcase a project you've built or are working on."}
+              </p>
+            </Modal.Header>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+            <Modal.Body>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
             {/* Image Upload */}
             <div className="space-y-2">
               <FormLabel>Project Image</FormLabel>
@@ -231,11 +223,11 @@ export function PortfolioItemForm({
                   />
                   <Button
                     type="button"
-                    variant="destructive"
-                    size="icon"
+                    variant="danger"
+                    isIconOnly
                     className="absolute top-2 right-2"
-                    onClick={removeImage}
-                    disabled={isPending}
+                    onPress={removeImage}
+                    isDisabled={isPending}
                   >
                     <X className="h-4 w-4" />
                   </Button>
@@ -306,14 +298,14 @@ export function PortfolioItemForm({
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea
-                      {...field}
-                      value={field.value || ""}
-                      placeholder="Describe your project, what it does, and what you learned..."
-                      className="min-h-[100px] resize-none"
-                      disabled={isPending}
-                    />
-                  </FormControl>
+                      <TextArea
+                        {...field}
+                        value={field.value || ""}
+                        placeholder="Describe your project, what it does, and what you learned..."
+                        className="min-h-[100px] resize-none"
+                        disabled={isPending}
+                      />
+                    </FormControl>
                   <FormDescription>
                     {(field.value?.length || 0)} / {MAX_DESCRIPTION_LENGTH} characters
                   </FormDescription>
@@ -368,15 +360,15 @@ export function PortfolioItemForm({
 
             {/* Actions */}
             <div className="flex justify-end gap-2 pt-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-                disabled={isPending}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isPending || isUploading}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onPress={() => onOpenChange(false)}
+                  isDisabled={isPending}
+                >
+                  Cancel
+                </Button>
+              <Button type="submit" isDisabled={isPending || isUploading}>
                 {isPending ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -389,9 +381,12 @@ export function PortfolioItemForm({
                 )}
               </Button>
             </div>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+                </form>
+              </Form>
+            </Modal.Body>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 }

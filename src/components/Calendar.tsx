@@ -4,7 +4,7 @@ import {
   ChevronRight,
   Calendar as CalendarIcon,
 } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import { cn } from "~/lib/utils";
 import { Panel } from "~/components/ui/panel";
 import type { EventWithUser } from "~/data-access/events";
@@ -117,7 +117,7 @@ export function Calendar({
           <Button
             variant="outline"
             size="sm"
-            onClick={goToToday}
+            onPress={goToToday}
             className="text-sm"
           >
             Today
@@ -126,16 +126,18 @@ export function Calendar({
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
-            size="icon"
-            onClick={() => navigateMonth("prev")}
+            isIconOnly
+            size="sm"
+            onPress={() => navigateMonth("prev")}
             className="h-9 w-9"
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
-            size="icon"
-            onClick={() => navigateMonth("next")}
+            isIconOnly
+            size="sm"
+            onPress={() => navigateMonth("next")}
             className="h-9 w-9"
           >
             <ChevronRight className="h-4 w-4" />

@@ -48,6 +48,8 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
           const root = window.document.documentElement;
           root.classList.remove("light", "dark");
           root.classList.add(newColorScheme);
+          root.setAttribute("data-theme", newColorScheme);
+          root.setAttribute("data-theme-preference", "system");
         }
       });
   }, [themeQuery.data]);
@@ -65,10 +67,14 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
         : "light";
 
       root.classList.add(systemTheme);
+      root.setAttribute("data-theme", systemTheme);
+      root.setAttribute("data-theme-preference", "system");
       return;
     }
 
     root.classList.add(theme);
+    root.setAttribute("data-theme", theme);
+    root.setAttribute("data-theme-preference", theme);
   }, [themeQuery.data]);
 
   const value = {

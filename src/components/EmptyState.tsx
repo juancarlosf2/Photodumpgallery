@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 
 interface EmptyStateProps {
   icon: ReactNode;
@@ -23,7 +23,7 @@ export function EmptyState({ icon, title, description, actionLabel, onAction }: 
         <Button 
           className="mt-6"
           size="lg"
-          onClick={onAction}
+          onPress={onAction}
         >
           {actionLabel}
         </Button>

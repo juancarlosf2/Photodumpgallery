@@ -21,7 +21,7 @@ import { authClient } from "~/lib/auth-client";
 import { redirect } from "@tanstack/react-router";
 import { DashboardBackground } from "~/components/DashboardBackground";
 import { useState } from "react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 
 export const Route = createFileRoute("/dashboard")({
   beforeLoad: async () => {
@@ -109,9 +109,9 @@ function DashboardLayout() {
         >
           <Button
             variant="ghost"
-            size="icon"
             className="h-6 w-6 text-muted-foreground hover:text-foreground"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            isIconOnly
+            onPress={() => setIsCollapsed(!isCollapsed)}
           >
             {isCollapsed ? (
               <ChevronRight className="h-4 w-4" />
@@ -135,7 +135,7 @@ function DashboardLayout() {
                 className={cn(
                   "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
                   isActive
-                    ? "bg-primary/20 text-primary border border-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.1)]"
+                    ? "bg-primary/20 text-primary border border-primary/20 shadow-[0_0_20px_color-mix(in_oklab,var(--accent)_10%,transparent)]"
                     : "text-muted-foreground hover:text-foreground hover:bg-white/5",
                   isCollapsed && "justify-center px-2"
                 )}
@@ -148,7 +148,7 @@ function DashboardLayout() {
                   )}
                 />
                 {!isCollapsed && (
-                  <span className="animate-in fade-in duration-200 whitespace-nowrap overflow-hidden">
+                  <span className="animate-fadeIn duration-200 whitespace-nowrap overflow-hidden">
                     {item.title}
                   </span>
                 )}

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   recentPostsQueryOptions,
   postQueryOptions,
@@ -95,7 +95,7 @@ export function useCreatePost() {
       navigate({ to: "/dashboard/community", search: { category: undefined } });
     },
     onError: (error) => {
-      toast.error("Failed to create post", {
+      toast.danger("Failed to create post", {
         description: getErrorMessage(error),
       });
     },
@@ -144,7 +144,7 @@ export function useUpdatePost() {
       });
     },
     onError: (error) => {
-      toast.error("Failed to update post", {
+      toast.danger("Failed to update post", {
         description: getErrorMessage(error),
       });
     },
@@ -169,7 +169,7 @@ export function useDeletePost() {
       navigate({ to: "/dashboard/community", search: { category: undefined } });
     },
     onError: (error) => {
-      toast.error("Failed to delete post", {
+      toast.danger("Failed to delete post", {
         description: getErrorMessage(error),
       });
     },
@@ -195,7 +195,7 @@ export function usePinPost() {
       });
     },
     onError: (error) => {
-      toast.error("Failed to update pin status", {
+      toast.danger("Failed to update pin status", {
         description: getErrorMessage(error),
       });
     },

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import { conversationsQueryOptions } from "~/queries/conversations";
 import { getOrCreateConversationFn } from "~/fn/conversations";
 import { getErrorMessage } from "~/utils/error";
@@ -26,7 +26,7 @@ export function useStartConversation() {
       navigate({ to: "/dashboard/messages", search: { conversation: conversation.id } });
     },
     onError: (error) => {
-      toast.error("Failed to start conversation", {
+      toast.danger("Failed to start conversation", {
         description: getErrorMessage(error),
       });
     },

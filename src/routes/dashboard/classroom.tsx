@@ -16,8 +16,7 @@ import { Page } from "~/components/Page";
 import { PageTitle } from "~/components/PageTitle";
 import { AppBreadcrumb } from "~/components/AppBreadcrumb";
 import { EmptyState } from "~/components/EmptyState";
-import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
+import { Button, Chip } from "@heroui/react";
 import {
   Panel,
   PanelContent,
@@ -73,10 +72,10 @@ function ModuleCard({
                   {module.title}
                 </PanelTitle>
                 {!module.isPublished && (
-                  <Badge variant="secondary" className="text-xs">
+                  <Chip variant="secondary" color="default" className="text-xs">
                     <EyeOff className="h-3 w-3 mr-1" />
                     Draft
-                  </Badge>
+                  </Chip>
                 )}
               </div>
               {module.description && (
@@ -96,25 +95,28 @@ function ModuleCard({
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setAddContentDialogOpen(true)}
-                    title="Add content"
+                    isIconOnly
+                    onPress={() => setAddContentDialogOpen(true)}
+                    aria-label="Add content"
                   >
                     <Plus className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => setEditDialogOpen(true)}
-                    title="Edit module"
+                    isIconOnly
+                    onPress={() => setEditDialogOpen(true)}
+                    aria-label="Edit module"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
+                    isIconOnly
                     className="text-destructive hover:text-destructive"
-                    onClick={() => setDeleteDialogOpen(true)}
-                    title="Delete module"
+                    onPress={() => setDeleteDialogOpen(true)}
+                    aria-label="Delete module"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -123,7 +125,8 @@ function ModuleCard({
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setExpanded(!expanded)}
+                isIconOnly
+                onPress={() => setExpanded(!expanded)}
               >
                 {expanded ? (
                   <ChevronUp className="h-4 w-4" />
@@ -199,7 +202,7 @@ function Classroom() {
       <div className="space-y-8">
         <AppBreadcrumb
           items={[
-            { label: "Dashboard", href: "/dashboard", icon: Home },
+            { label: "Dashboard", to: "/dashboard", icon: Home },
             { label: "Classroom", icon: BookOpen },
           ]}
         />
@@ -211,7 +214,7 @@ function Classroom() {
           />
           {isAdmin && (
             <Button
-              onClick={() => setCreateDialogOpen(true)}
+              onPress={() => setCreateDialogOpen(true)}
               className="bg-primary/90 hover:bg-primary"
             >
               <Plus className="h-4 w-4 mr-2" />

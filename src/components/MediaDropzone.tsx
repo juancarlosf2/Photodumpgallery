@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { ImagePlus, Film, X, Loader2, AlertCircle } from "lucide-react";
 import { cn } from "~/lib/utils";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import {
   type PendingUpload,
   type MediaUploadResult,
@@ -280,10 +280,10 @@ export function MediaDropzone({
               {upload.status !== "uploading" && (
                 <Button
                   type="button"
-                  variant="destructive"
-                  size="icon"
+                  variant="danger"
+                  isIconOnly
                   className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => removeUpload(upload.id)}
+                  onPress={() => removeUpload(upload.id)}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -304,8 +304,8 @@ export function MediaDropzone({
       {hasPendingFiles && (
         <Button
           type="button"
-          onClick={uploadFiles}
-          disabled={isUploading}
+          onPress={uploadFiles}
+          isDisabled={isUploading}
           className="w-full"
         >
           {isUploading ? (

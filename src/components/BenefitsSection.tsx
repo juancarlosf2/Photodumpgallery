@@ -1,5 +1,4 @@
 import { BookOpen, Users, Briefcase, Code, Target, Zap } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { FadeIn } from "~/components/ui/fade-in";
 
 const benefits = [
@@ -59,10 +58,12 @@ export function BenefitsSection() {
           <div className="md:col-span-2 row-span-1 md:row-span-1 glass-card p-8 rounded-2xl relative overflow-hidden group">
              <div className="relative z-10 flex flex-col justify-between h-full">
                <div className="flex items-start justify-between">
-                 <div className="rounded-lg bg-muted border border-border p-3">
+                 <div className="rounded-lg bg-accent-soft border border-accent/20 p-3 shadow-sm">
                    <BookOpen className="h-6 w-6 text-primary" />
                  </div>
-                 <div className="px-3 py-1 rounded-full bg-accent/50 border border-border text-xs text-muted-foreground">Step-by-step</div>
+                 <div className="px-3 py-1 rounded-full bg-accent-soft border border-accent/20 text-xs text-accent font-medium">
+                   Step-by-step
+                 </div>
                </div>
                <div>
                  <h3 className="text-2xl font-bold text-foreground mb-2">Structured Learning Path</h3>
@@ -75,8 +76,8 @@ export function BenefitsSection() {
           {/* Tall Card */}
           <div className="md:col-span-1 md:row-span-2 glass-card gradient-border p-8 rounded-2xl relative overflow-hidden group">
             <div className="relative z-10 h-full flex flex-col">
-               <div className="rounded-lg bg-muted border border-border p-3 w-fit mb-6">
-                 <Code className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+               <div className="rounded-lg bg-accent-soft border border-accent/20 p-3 w-fit mb-6 shadow-sm">
+                 <Code className="h-6 w-6 text-accent" />
                </div>
                <h3 className="text-2xl font-bold text-foreground mb-4">Real-World Projects</h3>
                <p className="text-muted-foreground mb-8">Build portfolio projects that showcase your skills. Learn by doing, not just watching tutorials.</p>
@@ -95,16 +96,16 @@ export function BenefitsSection() {
 
           {/* Regular Cards */}
           <div className="md:col-span-1 row-span-1 glass-card p-8 rounded-2xl group hover:bg-accent/5 transition-colors">
-             <div className="rounded-lg bg-muted border border-border p-3 w-fit mb-4">
-               <Users className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+             <div className="rounded-lg bg-accent-soft border border-accent/20 p-3 w-fit mb-4 shadow-sm">
+               <Users className="h-6 w-6 text-accent" />
              </div>
              <h3 className="text-xl font-bold text-foreground mb-2">Community Support</h3>
              <p className="text-muted-foreground text-sm">Join thousands of learners. Get help, share projects, and network.</p>
           </div>
 
           <div className="md:col-span-1 row-span-1 glass-card p-8 rounded-2xl group hover:bg-accent/5 transition-colors">
-             <div className="rounded-lg bg-muted border border-border p-3 w-fit mb-4">
-               <Briefcase className="h-6 w-6 text-green-600 dark:text-green-400" />
+             <div className="rounded-lg bg-accent-soft border border-accent/20 p-3 w-fit mb-4 shadow-sm">
+               <Briefcase className="h-6 w-6 text-success" />
              </div>
              <h3 className="text-xl font-bold text-foreground mb-2">Career Support</h3>
              <p className="text-muted-foreground text-sm">Resume reviews, portfolios, and interview prep to land the job.</p>
@@ -113,15 +114,15 @@ export function BenefitsSection() {
            {/* Wide Card */}
            <div className="md:col-span-2 row-span-1 glass-card p-8 rounded-2xl flex flex-col md:flex-row gap-6 items-center">
              <div className="flex-1">
-               <div className="rounded-lg bg-muted border border-border p-3 w-fit mb-4">
-                 <Zap className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+               <div className="rounded-lg bg-accent-soft border border-accent/20 p-3 w-fit mb-4 shadow-sm">
+                 <Zap className="h-6 w-6 text-warning" />
                </div>
                <h3 className="text-xl font-bold text-foreground mb-2">Practical Experience</h3>
                <p className="text-muted-foreground text-sm">Work on real applications using modern tools and technologies.</p>
              </div>
              <div className="flex-1 border-l border-border pl-6 hidden md:block">
-               <div className="rounded-lg bg-muted border border-border p-3 w-fit mb-4">
-                 <Target className="h-6 w-6 text-red-600 dark:text-red-400" />
+               <div className="rounded-lg bg-accent-soft border border-accent/20 p-3 w-fit mb-4 shadow-sm">
+                 <Target className="h-6 w-6 text-danger" />
                </div>
                <h3 className="text-xl font-bold text-foreground mb-2">Industry Connections</h3>
                <p className="text-muted-foreground text-sm">Connect with experienced developers and hiring managers.</p>

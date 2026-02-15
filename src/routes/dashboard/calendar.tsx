@@ -16,21 +16,31 @@ export const Route = createFileRoute("/dashboard/calendar")({
 });
 
 function CalendarPage() {
-  const [selectedEvent, setSelectedEvent] = useState<EventWithUser | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventWithUser | null>(
+    null,
+  );
   const [eventModalOpen, setEventModalOpen] = useState(false);
   const [eventDialogOpen, setEventDialogOpen] = useState(false);
   const [eventToEdit, setEventToEdit] = useState<EventWithUser | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  
+
   // Get admin status
   const { data: adminData } = useIsAdmin();
   const isAdmin = adminData?.isAdmin ?? false;
 
   // Calculate date range for current month
   const dateRange = useMemo(() => {
-    const start = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-    const end = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+    const start = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth(),
+      1,
+    );
+    const end = new Date(
+      currentMonth.getFullYear(),
+      currentMonth.getMonth() + 1,
+      0,
+    );
     // Include a bit of buffer to catch events that might span months
     start.setDate(start.getDate() - 7);
     end.setDate(end.getDate() + 7);
@@ -40,7 +50,7 @@ function CalendarPage() {
   const { data: events = [], isLoading } = useEvents(
     dateRange.start,
     dateRange.end,
-    true
+    true,
   );
 
   const handleEventClick = (event: EventWithUser) => {
@@ -69,7 +79,7 @@ function CalendarPage() {
       <div className="space-y-8">
         <AppBreadcrumb
           items={[
-            { label: "Dashboard", href: "/dashboard", icon: Home },
+            { label: "Dashboard", to: "/dashboard", icon: Home },
             { label: "Calendar" },
           ]}
         />

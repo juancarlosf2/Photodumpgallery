@@ -29,9 +29,18 @@ function EditPost() {
   const isOwner = session?.user?.id === post?.userId;
 
   const breadcrumbItems = [
-    { label: "Dashboard", href: "/dashboard" },
-    { label: "Community", href: "/dashboard/community", search: { category: undefined }, icon: Users },
-    { label: post?.title || "Post", href: `/dashboard/community/post/${postId}` },
+    { label: "Dashboard", to: "/dashboard" },
+    {
+      label: "Community",
+      to: "/dashboard/community",
+      search: { category: undefined },
+      icon: Users,
+    },
+    {
+      label: post?.title || "Post",
+      to: "/dashboard/community/post/$postId",
+      params: { postId },
+    },
     { label: "Edit" },
   ];
 

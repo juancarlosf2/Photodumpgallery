@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import {
@@ -13,14 +13,8 @@ import {
 import { Page } from "~/components/Page";
 import { PageTitle } from "~/components/PageTitle";
 import { AppBreadcrumb } from "~/components/AppBreadcrumb";
-import { Button } from "~/components/ui/button";
+import { Button, Dropdown } from "@heroui/react";
 import { Panel, PanelContent } from "~/components/ui/panel";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
 import {
   useNotifications,
   useMarkAsRead,
@@ -63,7 +57,7 @@ function NotificationCard({
       className={cn(
         "transition-colors",
         !notification.isRead &&
-          "bg-primary/5 border-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.05)]"
+          "bg-primary/5 border-primary/20 shadow-[0_0_20px_color-mix(in_oklab,var(--accent)_5%,transparent)]",
       )}
     >
       <PanelContent className="p-4">
@@ -77,7 +71,7 @@ function NotificationCard({
                 <p
                   className={cn(
                     "text-sm",
-                    !notification.isRead && "font-semibold"
+                    !notification.isRead && "font-semibold",
                   )}
                 >
                   {notification.title}
@@ -98,27 +92,27 @@ function NotificationCard({
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => onMarkAsRead(notification.id)}
-                    disabled={isPending}
-                    title="Mark as read"
+                    isIconOnly
+                    onPress={() => onMarkAsRead(notification.id)}
+                    isDisabled={isPending}
+                    aria-label="Mark as read"
                   >
                     <Check className="h-4 w-4" />
                   </Button>
                 )}
                 {notification.relatedId &&
                   notification.relatedType === "post" && (
-                    <Button variant="outline" size="sm" asChild>
-                      <Link
-                        to="/dashboard/community/post/$postId"
-                        params={{ postId: notification.relatedId }}
-                        onClick={() => {
-                          if (!notification.isRead) {
-                            onMarkAsRead(notification.id);
-                          }
-                        }}
-                      >
-                        View
-                      </Link>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onPress={() => {
+                        if (!notification.isRead) {
+                          onMarkAsRead(notification.id);
+                        }
+                        window.location.href = `/dashboard/community/post/${notification.relatedId}`;
+                      }}
+                    >
+                      View
                     </Button>
                   )}
               </div>
@@ -126,7 +120,7 @@ function NotificationCard({
           </div>
           {!notification.isRead && (
             <div className="shrink-0">
-              <div className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_var(--primary)]" />
+              <div className="h-2 w-2 rounded-full bg-primary shadow-[0_0_10px_var(--accent)]" />
             </div>
           )}
         </div>
@@ -153,9 +147,9 @@ function NotificationsPage() {
   });
 
   const breadcrumbItems = [
-    { label: "Dashboard", href: "/dashboard", icon: Home },
+    { label: "Dashboard", to: "/dashboard", icon: Home },
     { label: "Notifications", icon: Bell },
-  ];
+  ] as const;
 
   return (
     <Page>
@@ -172,38 +166,38 @@ function NotificationsPage() {
             }
           />
           <div className="flex items-center gap-2">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="bg-background/50 backdrop-blur-sm"
-                >
-                  <Filter className="h-4 w-4 mr-2" />
-                  {filter === "all" && "All"}
-                  {filter === "unread" && "Unread"}
-                  {filter === "read" && "Read"}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => setFilter("all")}>
-                  All notifications
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilter("unread")}>
-                  Unread only
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setFilter("read")}>
-                  Read only
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Dropdown>
+              <Button
+                variant="outline"
+                size="sm"
+                className="bg-background/50 backdrop-blur-sm"
+              >
+                <Filter className="h-4 w-4 mr-2" />
+                {filter === "all" && "All"}
+                {filter === "unread" && "Unread"}
+                {filter === "read" && "Read"}
+              </Button>
+              <Dropdown.Popover>
+                <Dropdown.Menu onAction={(key) => setFilter(key as FilterType)}>
+                  <Dropdown.Item id="all" textValue="All notifications">
+                    All notifications
+                  </Dropdown.Item>
+                  <Dropdown.Item id="unread" textValue="Unread only">
+                    Unread only
+                  </Dropdown.Item>
+                  <Dropdown.Item id="read" textValue="Read only">
+                    Read only
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown.Popover>
+            </Dropdown>
 
             {unreadCount > 0 && (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => markAllAsRead.mutate()}
-                disabled={markAllAsRead.isPending}
+                onPress={() => markAllAsRead.mutate()}
+                isDisabled={markAllAsRead.isPending}
                 className="bg-background/50 backdrop-blur-sm"
               >
                 <CheckCheck className="h-4 w-4 mr-2" />

@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
+import { Modal } from "@heroui/react";
 import { ModuleForm, type ModuleSubmitData } from "~/components/ModuleForm";
 import { useCreateModule, useUpdateModule } from "~/hooks/useModules";
 import type { ClassroomModuleWithUser } from "~/data-access/modules";
@@ -53,26 +47,34 @@ export function ModuleDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{isEditMode ? "Edit Module" : "Create Module"}</DialogTitle>
-          <DialogDescription>
-            {isEditMode
-              ? "Update the module details."
-              : "Add a new module to organize educational content."}
-          </DialogDescription>
-        </DialogHeader>
-        <ModuleForm
-          key={isEditMode ? module.id : "create"}
-          defaultValues={defaultValues}
-          onSubmit={handleSubmit}
-          isPending={mutation.isPending}
-          submitLabel={isEditMode ? "Save Changes" : "Create Module"}
-          onCancel={() => onOpenChange(false)}
-          cancelLabel="Cancel"
-        />
-      </DialogContent>
-    </Dialog>
+    <Modal>
+      <Modal.Backdrop isOpen={open} onOpenChange={onOpenChange}>
+        <Modal.Container>
+          <Modal.Dialog className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+            <Modal.Header>
+              <Modal.Heading>
+                {isEditMode ? "Edit Module" : "Create Module"}
+              </Modal.Heading>
+              <p className="text-sm text-muted-foreground">
+                {isEditMode
+                  ? "Update the module details."
+                  : "Add a new module to organize educational content."}
+              </p>
+            </Modal.Header>
+            <Modal.Body>
+              <ModuleForm
+                key={isEditMode ? module.id : "create"}
+                defaultValues={defaultValues}
+                onSubmit={handleSubmit}
+                isPending={mutation.isPending}
+                submitLabel={isEditMode ? "Save Changes" : "Create Module"}
+                onCancel={() => onOpenChange(false)}
+                cancelLabel="Cancel"
+              />
+            </Modal.Body>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 }

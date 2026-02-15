@@ -1,9 +1,5 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "~/components/ui/accordion";
+import { Accordion } from "@heroui/react";
+import { ChevronDown } from "lucide-react";
 import { FadeIn } from "~/components/ui/fade-in";
 
 const faqs = [
@@ -107,16 +103,27 @@ export function FAQSection() {
 
         <FadeIn delay={200}>
           <div className="max-w-4xl mx-auto">
-            <Accordion type="single" collapsible className="w-full glass-card rounded-2xl overflow-hidden">
+            <Accordion className="w-full glass-card rounded-2xl overflow-hidden">
               {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`} className="px-6 border-b border-border last:border-0 data-[state=open]:bg-muted/50 transition-colors">
-                  <AccordionTrigger className="text-left text-base text-foreground hover:text-primary transition-colors py-6 font-medium">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-6">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
+                <Accordion.Item
+                  key={index}
+                  id={`item-${index}`}
+                  className="px-6 border-b border-border last:border-0 transition-colors"
+                >
+                  <Accordion.Heading>
+                    <Accordion.Trigger className="text-left text-base text-foreground hover:text-primary transition-colors py-6 font-medium">
+                      {faq.question}
+                      <Accordion.Indicator className="ml-auto text-muted-foreground">
+                        <ChevronDown className="h-4 w-4" />
+                      </Accordion.Indicator>
+                    </Accordion.Trigger>
+                  </Accordion.Heading>
+                  <Accordion.Panel>
+                    <Accordion.Body className="text-muted-foreground text-base leading-relaxed pb-6">
+                      {faq.answer}
+                    </Accordion.Body>
+                  </Accordion.Panel>
+                </Accordion.Item>
               ))}
             </Accordion>
           </div>

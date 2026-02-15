@@ -1,10 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
+import { Modal } from "@heroui/react";
 import { EventForm, type EventSubmitData } from "~/components/EventForm";
 import { useCreateEvent, useUpdateEvent } from "~/hooks/useEvents";
 import { dateToLocalDateTime, createDateWithTime } from "~/utils/date";
@@ -75,26 +69,34 @@ export function EventDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{isEditMode ? "Edit Event" : "Create Event"}</DialogTitle>
-          <DialogDescription>
-            {isEditMode
-              ? "Update the event details."
-              : "Add a new event to the community calendar."}
-          </DialogDescription>
-        </DialogHeader>
-        <EventForm
-          key={isEditMode ? event.id : initialDate?.toISOString()}
-          defaultValues={defaultValues}
-          onSubmit={handleSubmit}
-          isPending={mutation.isPending}
-          submitLabel={isEditMode ? "Save Changes" : "Create Event"}
-          onCancel={() => onOpenChange(false)}
-          cancelLabel="Cancel"
-        />
-      </DialogContent>
-    </Dialog>
+    <Modal isOpen={open} onOpenChange={onOpenChange}>
+      <span className="hidden" />
+      <Modal.Backdrop variant="blur">
+        <Modal.Container placement="auto">
+          <Modal.Dialog className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+            <Modal.CloseTrigger />
+            <Modal.Header>
+              <Modal.Heading>{isEditMode ? "Edit Event" : "Create Event"}</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body>
+              <p className="text-sm text-muted-foreground">
+                {isEditMode
+                  ? "Update the event details."
+                  : "Add a new event to the community calendar."}
+              </p>
+              <EventForm
+                key={isEditMode ? event.id : initialDate?.toISOString()}
+                defaultValues={defaultValues}
+                onSubmit={handleSubmit}
+                isPending={mutation.isPending}
+                submitLabel={isEditMode ? "Save Changes" : "Create Event"}
+                onCancel={() => onOpenChange(false)}
+                cancelLabel="Cancel"
+              />
+            </Modal.Body>
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal>
   );
 }

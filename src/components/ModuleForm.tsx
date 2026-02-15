@@ -2,10 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loader2, BookOpen } from "lucide-react";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
-import { Switch } from "~/components/ui/switch";
+import { Button, Input, Switch, TextArea } from "@heroui/react";
 import {
   Form,
   FormControl,
@@ -111,7 +108,7 @@ export function ModuleForm({
                 Description
               </FormLabel>
               <FormControl>
-                <Textarea
+                <TextArea
                   placeholder="Module description (optional)"
                   className="min-h-[120px] text-base resize-none"
                   disabled={isPending}
@@ -141,10 +138,15 @@ export function ModuleForm({
               </div>
               <FormControl>
                 <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                  disabled={isPending}
-                />
+                  aria-label="Publish module"
+                  isSelected={field.value}
+                  isDisabled={isPending}
+                  onChange={field.onChange}
+                >
+                  <Switch.Control>
+                    <Switch.Thumb />
+                  </Switch.Control>
+                </Switch>
               </FormControl>
             </FormItem>
           )}
@@ -157,13 +159,13 @@ export function ModuleForm({
                 type="button"
                 variant="outline"
                 className="flex-1"
-                disabled={isPending}
-                onClick={onCancel}
+                isDisabled={isPending}
+                onPress={onCancel}
               >
                 {cancelLabel}
               </Button>
             )}
-            <Button type="submit" className="flex-1" disabled={isPending}>
+            <Button type="submit" className="flex-1" isDisabled={isPending}>
               {isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

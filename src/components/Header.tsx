@@ -1,9 +1,9 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Button, Dropdown, Modal } from "@heroui/react";
 import { authClient } from "~/lib/auth-client";
 import { ModeToggle } from "./mode-toggle";
 import { NotificationBell } from "./NotificationBell";
 import { MessagesBell } from "./MessagesBell";
-import { Button, buttonVariants } from "./ui/button";
 import {
   LogOut,
   User,
@@ -19,15 +19,6 @@ import {
   Bell,
 } from "lucide-react";
 import { UserAvatar } from "./UserAvatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { useState } from "react";
 import * as React from "react";
 import { cn } from "~/lib/utils";
@@ -103,7 +94,7 @@ export function Header() {
               <Code className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
-            <span className="hidden font-semibold text-sm sm:inline-block bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent whitespace-nowrap leading-none">
+            <span className="hidden font-semibold text-sm sm:inline-block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent whitespace-nowrap leading-none">
               Full Stack Campus
             </span>
           </Link>
@@ -134,7 +125,7 @@ export function Header() {
                   }`}
                 ></span>
                 <span
-                  className={`absolute inset-0 rounded-lg bg-gradient-to-r from-primary/10 to-purple-600/10 blur-sm transition-opacity duration-200 ${
+                  className={`absolute inset-0 rounded-lg bg-gradient-to-r from-primary/10 to-accent/10 blur-sm transition-opacity duration-200 ${
                     currentPath.startsWith("/dashboard")
                       ? "opacity-100"
                       : "opacity-0 group-hover:opacity-100"
@@ -147,65 +138,65 @@ export function Header() {
 
         {/* Mobile menu */}
         {session && (
-          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle Menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="left"
-              className="pr-0 bg-background/80 backdrop-blur-md border-r border-border/50"
+          <Modal isOpen={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <Button
+              variant="ghost"
+              className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
             >
-              <div className="px-7 pt-8 h-full flex flex-col">
-                <Link
-                  to="/"
-                  className="flex items-center space-x-2 mb-8"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Code className="h-6 w-6 text-primary shrink-0" />
-                  <span className="font-semibold text-base bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent whitespace-nowrap leading-none">
-                    Full Stack Campus
-                  </span>
-                </Link>
-                <nav className="flex flex-col gap-2">
-                  {navItems.map((item) => {
-                    const Icon = item.icon;
-                    const isActive =
-                      item.href === "/dashboard"
-                        ? currentPath === "/dashboard"
-                        : currentPath.startsWith(item.href);
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle Menu</span>
+            </Button>
+            <Modal.Backdrop variant="blur">
+              <Modal.Container placement="auto" className="sm:items-start sm:justify-start">
+                <Modal.Dialog className="w-full max-w-sm bg-background/90 backdrop-blur-md border border-border/50 sm:rounded-3xl">
+                  <Modal.CloseTrigger />
+                  <div className="px-7 pt-8 h-full flex flex-col">
+                    <Link
+                      to="/"
+                      className="flex items-center space-x-2 mb-8"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <Code className="h-6 w-6 text-primary shrink-0" />
+                      <span className="font-semibold text-base bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent whitespace-nowrap leading-none">
+                        Full Stack Campus
+                      </span>
+                    </Link>
+                    <nav className="flex flex-col gap-2">
+                      {navItems.map((item) => {
+                        const Icon = item.icon;
+                        const isActive =
+                          item.href === "/dashboard"
+                            ? currentPath === "/dashboard"
+                            : currentPath.startsWith(item.href);
 
-                    return (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        className={cn(
-                          "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
-                          isActive
-                            ? "bg-primary/20 text-primary border border-primary/20 shadow-[0_0_20px_rgba(var(--primary),0.1)]"
-                            : "text-muted-foreground hover:text-foreground hover:bg-white/5"
-                        )}
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <Icon
-                          className={cn(
-                            "h-5 w-5 transition-transform",
-                            isActive && "scale-110"
-                          )}
-                        />
-                        <span>{item.title}</span>
-                      </Link>
-                    );
-                  })}
-                </nav>
-              </div>
-            </SheetContent>
-          </Sheet>
+                        return (
+                          <Link
+                            key={item.href}
+                            to={item.href}
+                            className={cn(
+                              "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
+                              isActive
+                                ? "bg-primary/20 text-primary border border-primary/20 shadow-[0_0_20px_color-mix(in_oklab,var(--accent)_12%,transparent)]"
+                                : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                            )}
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            <Icon
+                              className={cn(
+                                "h-5 w-5 transition-transform",
+                                isActive && "scale-110"
+                              )}
+                            />
+                            <span>{item.title}</span>
+                          </Link>
+                        );
+                      })}
+                    </nav>
+                  </div>
+                </Modal.Dialog>
+              </Modal.Container>
+            </Modal.Backdrop>
+          </Modal>
         )}
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none"></div>
@@ -218,71 +209,86 @@ export function Header() {
               <>
                 <MessagesBell />
                 <NotificationBell />
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="relative h-8 w-8 rounded-full"
+                <Dropdown>
+                  <Button
+                    variant="ghost"
+                    className="relative h-8 w-8 rounded-full"
+                    isIconOnly
+                  >
+                    <UserAvatar
+                      imageKey={session?.user?.image || null}
+                      name={session?.user?.name || null}
+                      email={session?.user?.email || null}
+                      size="sm"
+                    />
+                  </Button>
+                  <Dropdown.Popover className="w-56">
+                    <Dropdown.Menu
+                      onAction={(key) => {
+                        if (!session) return;
+                        if (key === "profile") {
+                          navigate({
+                            to: "/profile/$userId",
+                            params: { userId: session.user.id },
+                          });
+                        }
+                        if (key === "settings") {
+                          navigate({ to: "/dashboard/settings" });
+                        }
+                        if (key === "logout") {
+                          handleSignOut();
+                        }
+                      }}
                     >
-                      <UserAvatar
-                        imageKey={session?.user?.image || null}
-                        name={session?.user?.name || null}
-                        email={session?.user?.email || null}
-                        size="sm"
-                      />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuLabel className="font-normal">
-                      <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">
-                          Account
-                        </p>
-                        <p className="text-xs leading-none text-muted-foreground">
-                          {session.user.email}
-                        </p>
-                      </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link
-                        to="/profile/$userId"
-                        params={{ userId: session.user.id }}
-                      >
-                        <User className="mr-2 h-4 w-4" />
-                        <span>Profile</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <Link to="/dashboard/settings">
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                      <Dropdown.Section>
+                        <Dropdown.Item id="account" textValue="Account" isDisabled>
+                          <div className="flex flex-col space-y-1">
+                            <p className="text-sm font-medium leading-none">
+                              Account
+                            </p>
+                            <p className="text-xs leading-none text-muted-foreground">
+                              {session.user.email}
+                            </p>
+                          </div>
+                        </Dropdown.Item>
+                      </Dropdown.Section>
+                      <Dropdown.Section>
+                        <Dropdown.Item id="profile" textValue="Profile">
+                          <User className="mr-2 h-4 w-4" />
+                          <span>Profile</span>
+                        </Dropdown.Item>
+                        <Dropdown.Item id="settings" textValue="Settings">
+                          <Settings className="mr-2 h-4 w-4" />
+                          <span>Settings</span>
+                        </Dropdown.Item>
+                      </Dropdown.Section>
+                      <Dropdown.Section>
+                        <Dropdown.Item id="logout" textValue="Log out" variant="danger">
+                          <LogOut className="mr-2 h-4 w-4" />
+                          <span>Log out</span>
+                        </Dropdown.Item>
+                      </Dropdown.Section>
+                    </Dropdown.Menu>
+                  </Dropdown.Popover>
+                </Dropdown>
               </>
             ) : (
               <>
-                <Link
-                  className={buttonVariants({ variant: "outline" })}
-                  to="/sign-in"
-                  search={{ redirect: undefined }}
+                <Button
+                  variant="outline"
+                  onPress={() =>
+                    navigate({ to: "/sign-in", search: { redirect: undefined } })
+                  }
                 >
                   Sign In
-                </Link>
-                <Link
-                  className={buttonVariants({ variant: "default" })}
-                  to="/sign-up"
-                  search={{ redirect: undefined }}
+                </Button>
+                <Button
+                  onPress={() =>
+                    navigate({ to: "/sign-up", search: { redirect: undefined } })
+                  }
                 >
                   Sign Up
-                </Link>
+                </Button>
               </>
             )}
             <ModeToggle />

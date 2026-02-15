@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import {
   Home,
@@ -20,8 +20,7 @@ import { AppBreadcrumb } from "~/components/AppBreadcrumb";
 import { UserAvatar } from "~/components/UserAvatar";
 import { PortfolioItemCard } from "~/components/PortfolioItemCard";
 import { StartConversationButton } from "~/components/StartConversationButton";
-import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
+import { Button, Chip } from "@heroui/react";
 import {
   Panel,
   PanelContent,
@@ -41,6 +40,7 @@ export const Route = createFileRoute("/profile/$userId/")({
 function Profile() {
   const { userId } = Route.useParams();
   const { data: session } = authClient.useSession();
+  const navigate = useNavigate();
   const {
     data: profileData,
     isLoading,
@@ -76,11 +76,12 @@ function Profile() {
           <p className="text-muted-foreground max-w-md mx-auto">
             This profile doesn't exist or is set to private.
           </p>
-          <Button asChild variant="outline">
-            <Link to="/dashboard/members" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Members
-            </Link>
+          <Button
+            variant="outline"
+            onPress={() => navigate({ to: "/dashboard/members" })}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Members
           </Button>
         </div>
       </Page>
@@ -100,8 +101,8 @@ function Profile() {
       <div className="space-y-8 max-w-4xl mx-auto">
         <AppBreadcrumb
           items={[
-            { label: "Home", href: "/", icon: Home },
-            { label: "Members", href: "/members", icon: Users },
+            { label: "Home", to: "/", icon: Home },
+            { label: "Members", to: "/dashboard/members", icon: Users },
             { label: user.name || "Profile" },
           ]}
         />
@@ -153,14 +154,12 @@ function Profile() {
                   )}
                   {/* Edit button - only show if viewing own profile */}
                   {isOwnProfile && (
-                    <Button asChild variant="outline">
-                      <Link
-                        to="/dashboard/settings"
-                        className="flex items-center gap-2"
-                      >
-                        <Edit className="h-4 w-4" />
-                        Edit Profile
-                      </Link>
+                    <Button
+                      variant="outline"
+                      onPress={() => navigate({ to: "/dashboard/settings" })}
+                    >
+                      <Edit className="h-4 w-4" />
+                      Edit Profile
                     </Button>
                   )}
                 </div>
@@ -227,13 +226,9 @@ function Profile() {
             <PanelContent>
               <div className="flex flex-wrap gap-2">
                 {profile.skills.map((skill) => (
-                  <Badge
-                    key={skill}
-                    variant="secondary"
-                    className="px-3 py-1.5 text-sm font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
-                  >
+                  <Chip key={skill} size="sm">
                     {skill}
-                  </Badge>
+                  </Chip>
                 ))}
               </div>
             </PanelContent>
@@ -267,11 +262,12 @@ function Profile() {
 
         {/* Back button */}
         <div className="flex justify-center pb-8">
-          <Button asChild variant="outline">
-            <Link to="/dashboard/members" className="flex items-center gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Members
-            </Link>
+          <Button
+            variant="outline"
+            onPress={() => navigate({ to: "/dashboard/members" })}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Members
           </Button>
         </div>
       </div>

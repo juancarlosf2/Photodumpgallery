@@ -1,10 +1,11 @@
-import { Button } from "~/components/ui/button";
-import { Link } from "@tanstack/react-router";
+import { Button } from "@heroui/react";
+import { useNavigate } from "@tanstack/react-router";
 import { Rocket, Shield, Clock, CheckCircle2 } from "lucide-react";
-import { Card, CardContent } from "~/components/ui/card";
 import { FadeIn } from "~/components/ui/fade-in";
 
 export function FinalCTASection() {
+  const navigate = useNavigate();
+
   return (
     <section className="w-full py-32 relative overflow-hidden bg-primary/90">
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-purple-800 opacity-90"></div>
@@ -33,15 +34,22 @@ export function FinalCTASection() {
              </p>
 
              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-               <Button size="lg" className="text-lg h-16 px-10 rounded-full bg-white text-primary font-bold hover:bg-slate-100 hover:scale-105 transition-all duration-300 shadow-2xl" asChild>
-                 <Link to="/sign-up" search={{ redirect: undefined }}>
-                   Get Started Now
-                 </Link>
+               <Button
+                 size="lg"
+                 className="text-lg h-16 px-10 rounded-full bg-white text-primary font-bold hover:bg-slate-100 hover:scale-105 transition-all duration-300 shadow-2xl"
+                 onPress={() => navigate({ to: "/sign-up", search: { redirect: undefined } })}
+               >
+                 Get Started Now
                </Button>
-               <Button size="lg" variant="outline" className="text-lg h-16 px-10 rounded-full border-white/30 text-white hover:bg-white/10 backdrop-blur-sm" asChild>
-                 <a href="#pricing">
-                   View Pricing
-                 </a>
+               <Button
+                 size="lg"
+                 variant="outline"
+                 className="text-lg h-16 px-10 rounded-full border-white/30 text-white hover:bg-white/10 backdrop-blur-sm"
+                 onPress={() => {
+                   window.location.hash = "pricing";
+                 }}
+               >
+                 View Pricing
                </Button>
              </div>
 

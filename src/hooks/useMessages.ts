@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   messagesQueryOptions,
   unreadMessageCountQueryOptions,
@@ -49,7 +49,7 @@ export function useSendMessage() {
       queryClient.invalidateQueries({ queryKey: ["conversations"] });
     },
     onError: (error) => {
-      toast.error("Failed to send message", {
+      toast.danger("Failed to send message", {
         description: getErrorMessage(error),
       });
     },

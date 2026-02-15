@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Avatar } from "@heroui/react";
 import { useAvatarImage } from "~/hooks/useAvatarImage";
 import { getInitials } from "~/utils/user";
 
@@ -36,10 +36,10 @@ export function UserAvatar({
 
   return (
     <Avatar className={`${sizeMap[size]} ${className}`}>
-      {avatarUrl && <AvatarImage src={avatarUrl} alt={name || "User"} />}
-      <AvatarFallback className="bg-gradient-to-br from-primary to-purple-600 text-primary-foreground font-semibold">
+      {avatarUrl && <Avatar.Image src={avatarUrl} alt={name || "User"} />}
+      <Avatar.Fallback className="bg-gradient-to-br from-primary to-purple-600 text-primary-foreground font-semibold">
         {fallbackText}
-      </AvatarFallback>
+      </Avatar.Fallback>
     </Avatar>
   );
 }

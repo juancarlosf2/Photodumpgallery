@@ -1,9 +1,11 @@
-import { Button } from "~/components/ui/button";
-import { Link } from "@tanstack/react-router";
+import { Button } from "@heroui/react";
+import { useNavigate } from "@tanstack/react-router";
 import { Rocket, Play } from "lucide-react";
 import { FadeIn } from "~/components/ui/fade-in";
 
 export function Hero() {
+  const navigate = useNavigate();
+
   return (
     <section className="w-full relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
       <div className="container mx-auto px-4 relative z-[2] flex flex-col">
@@ -42,22 +44,24 @@ export function Hero() {
 
           <FadeIn delay={300}>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-              <Button size="lg" className="w-full sm:w-auto h-14 px-8 rounded-full bg-gradient-to-r from-primary to-purple-600 text-white font-bold hover:shadow-[0_0_40px_-10px_rgba(var(--primary),0.5)] transition-all transform hover:-translate-y-1 text-base" asChild>
-                <Link to="/sign-up" search={{ redirect: undefined }}>
-                  <Rocket className="mr-2 h-4 w-4" />
-                  Start for Free
-                </Link>
+              <Button
+                size="lg"
+                className="w-full sm:w-auto h-14 px-8 rounded-full bg-gradient-to-r from-primary to-primary/80 text-white font-bold hover:shadow-[0_0_40px_-10px_color-mix(in_oklab,var(--accent)_50%,transparent)] transition-all transform hover:-translate-y-1 text-base"
+                onPress={() => navigate({ to: "/sign-up", search: { redirect: undefined } })}
+              >
+                <Rocket className="mr-2 h-4 w-4" />
+                Start for Free
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="w-full sm:w-auto h-14 px-8 rounded-full border border-border bg-background/50 text-foreground font-medium hover:bg-accent hover:text-accent-foreground transition-all text-base backdrop-blur-sm"
-                asChild
+                onPress={() => {
+                  window.location.hash = "curriculum";
+                }}
               >
-                <a href="#curriculum">
-                  <Play className="mr-2 h-4 w-4" />
-                  See How it Works
-                </a>
+                <Play className="mr-2 h-4 w-4" />
+                See How it Works
               </Button>
             </div>
           </FadeIn>

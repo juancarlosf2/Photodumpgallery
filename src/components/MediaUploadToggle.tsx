@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ImagePlus } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import { MediaDropzone } from "~/components/MediaDropzone";
 import type { MediaUploadResult } from "~/utils/storage/media-helpers";
 import { cn } from "~/lib/utils";
@@ -73,19 +73,32 @@ export function MediaUploadToggle({
   const isMaxReached = currentAttachmentCount >= maxFiles;
   const availableSlots = Math.max(0, maxFiles - currentAttachmentCount);
   const hasNoAttachments = currentAttachmentCount === 0;
+  const resolvedVariant =
+    buttonVariant === "default"
+      ? "primary"
+      : buttonVariant === "destructive"
+        ? "danger"
+        : buttonVariant === "link"
+          ? "tertiary"
+          : buttonVariant;
+  const resolvedSize =
+    buttonSize === "default" ? "md" : buttonSize === "icon" ? "sm" : buttonSize;
+  const isIconOnly = buttonSize === "icon";
 
   if (!showDropzone) {
     return (
       <Button
         type="button"
-        variant={buttonVariant}
-        size={buttonSize}
+        variant={resolvedVariant}
+        size={resolvedSize}
+        isIconOnly={isIconOnly}
         className={cn(buttonClassName)}
-        onClick={() => setShowDropzone(true)}
-        disabled={disabled || isMaxReached}
+        onPress={() => setShowDropzone(true)}
+        isDisabled={disabled || isMaxReached}
+        aria-label={isIconOnly ? buttonLabel : undefined}
       >
-        <ImagePlus className="h-4 w-4 mr-1" />
-        {isMaxReached ? maxFilesReachedLabel : buttonLabel}
+        <ImagePlus className={cn("h-4 w-4", !isIconOnly && "mr-1")} />
+        {!isIconOnly && (isMaxReached ? maxFilesReachedLabel : buttonLabel)}
       </Button>
     );
   }
@@ -113,7 +126,7 @@ export function MediaUploadToggle({
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => setShowDropzone(false)}
+          onPress={() => setShowDropzone(false)}
         >
           Cancel
         </Button>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Plus, Briefcase, Loader2 } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import {
   Panel,
   PanelContent,
@@ -47,7 +47,7 @@ export function PortfolioSection() {
                 </PanelDescription>
               </div>
             </div>
-            <Button onClick={() => setFormOpen(true)} size="sm">
+            <Button onPress={() => setFormOpen(true)} size="sm">
               <Plus className="h-4 w-4 mr-1" />
               Add Project
             </Button>
@@ -77,7 +77,7 @@ export function PortfolioSection() {
               <p className="text-sm text-muted-foreground mb-4">
                 Add your first project to showcase your work
               </p>
-              <Button onClick={() => setFormOpen(true)}>
+              <Button onPress={() => setFormOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Your First Project
               </Button>

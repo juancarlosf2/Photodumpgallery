@@ -1,4 +1,4 @@
-import { Badge } from "~/components/ui/badge";
+import { Chip } from "@heroui/react";
 import type { SubscriptionPlan } from "~/db/schema";
 
 interface PlanBadgeProps {
@@ -23,10 +23,13 @@ const PLAN_CONFIG = {
 
 export function PlanBadge({ plan, className }: PlanBadgeProps) {
   const config = PLAN_CONFIG[plan] || PLAN_CONFIG.free;
-  
+
+  const chipVariant = config.variant === "secondary" ? "secondary" : "primary";
+  const chipColor = config.variant === "secondary" ? "default" : "accent";
+
   return (
-    <Badge variant={config.variant} className={className}>
+    <Chip variant={chipVariant} color={chipColor} className={className}>
       {config.label}
-    </Badge>
+    </Chip>
   );
 }

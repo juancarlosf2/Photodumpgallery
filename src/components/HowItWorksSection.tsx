@@ -5,13 +5,6 @@ import {
   Briefcase,
   CheckCircle2,
 } from "lucide-react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card";
 import { FadeIn } from "~/components/ui/fade-in";
 
 const steps = [
@@ -78,7 +71,7 @@ export function HowItWorksSection() {
                 return (
                   <FadeIn key={index} delay={index * 150} className="h-full">
                     <div className="flex flex-col items-center text-center group">
-                      <div className="w-24 h-24 rounded-full bg-card border-2 border-primary/30 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(var(--primary),0.2)] group-hover:scale-110 transition-transform z-10 relative overflow-hidden">
+                      <div className="w-24 h-24 rounded-full bg-card border-2 border-primary/30 flex items-center justify-center mb-6 shadow-[0_0_20px_color-mix(in_oklab,var(--accent)_20%,transparent)] group-hover:scale-110 transition-transform z-10 relative overflow-hidden">
                         <span className="font-mono font-bold text-3xl text-foreground relative z-10">{step.number}</span>
                          <div className="absolute inset-0 rounded-full border border-dashed border-primary/50 animate-spin-slow"></div>
                          <div className="absolute inset-0 bg-primary/10 rounded-full blur-xl group-hover:bg-primary/20 transition-colors"></div>

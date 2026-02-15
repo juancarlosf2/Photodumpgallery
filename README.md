@@ -18,7 +18,7 @@ An online community and training platform for aspiring full stack engineers. Mas
 - **Framework**: [TanStack Start](https://tanstack.com/start) - Full-stack React framework
 - **Database**: PostgreSQL with [Drizzle ORM](https://orm.drizzle.team/) for type-safe queries
 - **Authentication**: [Better Auth](https://www.better-auth.com/) with email/password authentication
-- **Styling**: Tailwind CSS with [Radix UI](https://www.radix-ui.com/) components
+- **Styling**: Tailwind CSS with HeroUI v3 components
 - **File Storage**: AWS S3/R2 with presigned URL uploads
 - **Payments**: Stripe integration for subscriptions
 - **TypeScript**: Full type safety throughout

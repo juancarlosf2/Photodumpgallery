@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
-import { Button } from "~/components/ui/button";
+import { Button, Modal } from "@heroui/react";
 import { ExternalLink, Calendar, Clock, User, Tag, Pencil, Trash2 } from "lucide-react";
 import type { EventWithUser } from "~/data-access/events";
 import { EVENT_TYPE_LABELS } from "~/components/EventForm";
@@ -50,43 +43,45 @@ export function EventModal({ event, open, onOpenChange, isAdmin, onEdit }: Event
 
   return (
     <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <DialogTitle className="text-2xl">{event.title}</DialogTitle>
-                <DialogDescription>
-                  <div className="flex items-center gap-2 mt-2">
-                    <Tag className="h-4 w-4" />
-                    <span>{EVENT_TYPE_LABELS[event.eventType as keyof typeof EVENT_TYPE_LABELS]}</span>
+      <Modal isOpen={open} onOpenChange={onOpenChange}>
+        <span className="hidden" />
+        <Modal.Backdrop variant="blur">
+          <Modal.Container placement="auto">
+            <Modal.Dialog className="sm:max-w-lg">
+              <Modal.CloseTrigger />
+              <Modal.Header>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <Modal.Heading className="text-2xl">{event.title}</Modal.Heading>
+                    <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+                      <Tag className="h-4 w-4" />
+                      <span>{EVENT_TYPE_LABELS[event.eventType as keyof typeof EVENT_TYPE_LABELS]}</span>
+                    </div>
                   </div>
-                </DialogDescription>
-              </div>
-              {isAdmin && (
-                <div className="flex items-center gap-1">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={handleEdit}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8 text-destructive hover:text-destructive"
-                    onClick={() => setDeleteDialogOpen(true)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  {isAdmin && (
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        className="h-8 w-8"
+                        isIconOnly
+                        onPress={handleEdit}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        className="h-8 w-8 text-destructive hover:text-destructive"
+                        isIconOnly
+                        onPress={() => setDeleteDialogOpen(true)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </DialogHeader>
+              </Modal.Header>
 
-          <div className="space-y-4">
+              <Modal.Body className="space-y-4">
             {/* Date and Time */}
             <div className="space-y-2">
               <div className="flex items-start gap-3">
@@ -131,22 +126,20 @@ export function EventModal({ event, open, onOpenChange, isAdmin, onEdit }: Event
             {/* Event Link */}
             {event.eventLink && (
               <div className="pt-2">
-                <Button asChild className="w-full" variant="default">
-                  <a
-                    href={event.eventLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                    Join Event
-                  </a>
+                <Button
+                  className="w-full"
+                  onPress={() => window.open(event.eventLink!, "_blank", "noopener,noreferrer")}
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Join Event
                 </Button>
               </div>
             )}
-          </div>
-        </DialogContent>
-      </Dialog>
+              </Modal.Body>
+            </Modal.Dialog>
+          </Modal.Container>
+        </Modal.Backdrop>
+      </Modal>
 
       <ConfirmDeleteDialog
         open={deleteDialogOpen}

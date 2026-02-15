@@ -1,4 +1,8 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  LinkProps,
+  useNavigate,
+} from "@tanstack/react-router";
 import {
   BookOpen,
   Users,
@@ -7,6 +11,7 @@ import {
   MessageSquare,
   Bell,
   ArrowRight,
+  LucideProps,
 } from "lucide-react";
 import {
   Panel,
@@ -14,14 +19,24 @@ import {
   PanelHeader,
   PanelTitle,
 } from "~/components/ui/panel";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import { authClient } from "~/lib/auth-client";
+import { ButtonLink } from "~/components/ui/link";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export const Route = createFileRoute("/dashboard/")({
   component: DashboardHome,
 });
 
-const quickLinks = [
+const quickLinks: {
+  title: string;
+  description: string;
+  href: LinkProps["to"];
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
+  color: string;
+}[] = [
   {
     title: "Classroom",
     description: "Access educational modules and learning resources",
@@ -68,13 +83,14 @@ const quickLinks = [
 
 function DashboardHome() {
   const { data: session } = authClient.useSession();
+  const navigate = useNavigate();
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
       <div className="space-y-8">
         {/* Welcome Section */}
         <div>
-          <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold tracking-tight bg-linear-to-r from-primary to-purple-600 bg-clip-text text-transparent">
             Welcome back, {session?.user?.name || "there"}!
           </h1>
           <p className="text-muted-foreground mt-2">
@@ -104,14 +120,13 @@ function DashboardHome() {
                     <p className="text-sm text-muted-foreground mb-4">
                       {link.description}
                     </p>
-                    <Link to={link.href}>
-                      <Button
-                        variant="outline"
-                        className="w-full bg-background/50 backdrop-blur-sm hover:bg-background/80"
-                      >
-                        Go to {link.title}
-                      </Button>
-                    </Link>
+                    <ButtonLink
+                      variant="outline"
+                      className="w-full bg-background/50 backdrop-blur-sm hover:bg-background/80"
+                      to={link.href}
+                    >
+                      Go to {link.title}
+                    </ButtonLink>
                   </PanelContent>
                 </Panel>
               );

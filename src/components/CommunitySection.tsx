@@ -1,5 +1,4 @@
 import { Users, Calendar, MessageSquare, TrendingUp, Award, Network } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { FadeIn } from "~/components/ui/fade-in";
 
 const communityFeatures = [

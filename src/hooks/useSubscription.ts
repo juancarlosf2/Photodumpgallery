@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   createCheckoutSessionFn,
   createPortalSessionFn,
@@ -26,11 +26,11 @@ export function useCreateCheckoutSession() {
       if (result.success && result.data?.sessionUrl) {
         window.location.href = result.data.sessionUrl;
       } else {
-        toast.error(result.error || "Failed to create checkout session");
+        toast.danger(result.error || "Failed to create checkout session");
       }
     },
     onError: () => {
-      toast.error("Failed to start checkout process");
+      toast.danger("Failed to start checkout process");
     },
   });
 }
@@ -43,11 +43,11 @@ export function useCreatePortalSession() {
       if (result.success && result.data?.sessionUrl) {
         window.open(result.data.sessionUrl, "_blank");
       } else {
-        toast.error(result.error || "Failed to open billing portal");
+        toast.danger(result.error || "Failed to open billing portal");
       }
     },
     onError: () => {
-      toast.error("Failed to open billing portal");
+      toast.danger("Failed to open billing portal");
     },
   });
 }
@@ -63,11 +63,11 @@ export function useCancelSubscription() {
         );
         window.location.reload();
       } else {
-        toast.error(result.error || "Failed to cancel subscription");
+        toast.danger(result.error || "Failed to cancel subscription");
       }
     },
     onError: () => {
-      toast.error("Failed to cancel subscription");
+      toast.danger("Failed to cancel subscription");
     },
   });
 }

@@ -2,7 +2,7 @@ import { ArrowLeft, MessageSquare } from "lucide-react";
 import { UserAvatar } from "./UserAvatar";
 import { MessageList } from "./MessageList";
 import { MessageInput } from "./MessageInput";
-import { Button } from "./ui/button";
+import { Button } from "@heroui/react";
 import { Link } from "@tanstack/react-router";
 import type { ConversationWithParticipant } from "~/data-access/conversations";
 
@@ -41,8 +41,9 @@ export function ChatView({
         {showBackButton && onBack && (
           <Button
             variant="ghost"
-            size="icon"
-            onClick={onBack}
+            isIconOnly
+            size="sm"
+            onPress={onBack}
             className="shrink-0 lg:hidden"
           >
             <ArrowLeft className="h-4 w-4" />

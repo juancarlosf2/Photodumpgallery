@@ -6,7 +6,6 @@ import { PageTitle } from "~/components/PageTitle";
 import { AppBreadcrumb } from "~/components/AppBreadcrumb";
 import { ConversationList } from "~/components/ConversationList";
 import { ChatView } from "~/components/ChatView";
-import { Button } from "~/components/ui/button";
 import { assertAuthenticatedFn } from "~/fn/guards";
 import { useConversations } from "~/hooks/useConversations";
 import type { ConversationWithParticipant } from "~/data-access/conversations";
@@ -52,7 +51,7 @@ function MessagesPage() {
   }, [conversations, conversationIdFromUrl]);
 
   const handleSelectConversation = (
-    conversation: ConversationWithParticipant
+    conversation: ConversationWithParticipant,
   ) => {
     setActiveConversation(conversation);
     navigate({
@@ -70,7 +69,7 @@ function MessagesPage() {
   };
 
   const breadcrumbItems = [
-    { label: "Dashboard", href: "/dashboard", icon: Home },
+    { label: "Dashboard", to: "/dashboard", icon: Home },
     { label: "Messages", icon: MessageSquare },
   ];
 
@@ -94,7 +93,7 @@ function MessagesPage() {
           <div
             className={cn(
               "w-full lg:w-80 border-r border-border/50 flex-shrink-0 overflow-y-auto bg-background/20 backdrop-blur-sm",
-              !showSidebar && "hidden lg:block"
+              !showSidebar && "hidden lg:block",
             )}
           >
             <div className="p-4 border-b border-border/50">
@@ -110,7 +109,7 @@ function MessagesPage() {
           <div
             className={cn(
               "flex-1 flex flex-col min-w-0 bg-background/20 backdrop-blur-sm",
-              showSidebar && "hidden lg:flex"
+              showSidebar && "hidden lg:flex",
             )}
           >
             <ChatView

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   getPresignedUploadUrlFn,
   getPresignedImageUploadUrlFn,
@@ -24,7 +24,7 @@ export function useGetPresignedUploadUrl() {
     mutationFn: (videoKey: string) => 
       getPresignedUploadUrlFn({ data: { videoKey } }),
     onError: (error) => {
-      toast.error("Failed to get upload URL", {
+      toast.danger("Failed to get upload URL", {
         description: getErrorMessage(error),
       });
     },
@@ -36,7 +36,7 @@ export function useGetPresignedImageUploadUrl() {
     mutationFn: (imageKey: string) => 
       getPresignedImageUploadUrlFn({ data: { imageKey } }),
     onError: (error) => {
-      toast.error("Failed to get image upload URL", {
+      toast.danger("Failed to get image upload URL", {
         description: getErrorMessage(error),
       });
     },
@@ -59,7 +59,7 @@ export function useUpdateUserProfile() {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (error) => {
-      toast.error("Failed to update profile", {
+      toast.danger("Failed to update profile", {
         description: getErrorMessage(error),
       });
     },
@@ -71,7 +71,7 @@ export function useGetProfileImageUploadUrl() {
     mutationFn: (data: { fileName: string; contentType: string }) =>
       getProfileImageUploadUrlFn({ data }),
     onError: (error) => {
-      toast.error("Failed to get profile image upload URL", {
+      toast.danger("Failed to get profile image upload URL", {
         description: getErrorMessage(error),
       });
     },
@@ -84,7 +84,7 @@ export function useGetUploadUrl() {
     mutationFn: (data: { fileName: string; fileType: string; folder?: string }) =>
       getModuleContentUploadUrlFn({ data }),
     onError: (error) => {
-      toast.error("Failed to get upload URL", {
+      toast.danger("Failed to get upload URL", {
         description: getErrorMessage(error),
       });
     },

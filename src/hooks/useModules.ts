@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   modulesQueryOptions,
   moduleQueryOptions,
@@ -57,7 +57,7 @@ export function useCreateModule() {
       queryClient.invalidateQueries({ queryKey: ["modules"] });
     },
     onError: (error) => {
-      toast.error("Failed to create module", {
+      toast.danger("Failed to create module", {
         description: getErrorMessage(error),
       });
     },
@@ -82,7 +82,7 @@ export function useUpdateModule() {
       queryClient.invalidateQueries({ queryKey: ["module", variables.id] });
     },
     onError: (error) => {
-      toast.error("Failed to update module", {
+      toast.danger("Failed to update module", {
         description: getErrorMessage(error),
       });
     },
@@ -101,7 +101,7 @@ export function useDeleteModule() {
       queryClient.invalidateQueries({ queryKey: ["modules"] });
     },
     onError: (error) => {
-      toast.error("Failed to delete module", {
+      toast.danger("Failed to delete module", {
         description: getErrorMessage(error),
       });
     },
@@ -133,7 +133,7 @@ export function useCreateModuleContent() {
       queryClient.invalidateQueries({ queryKey: ["module-contents", variables.moduleId] });
     },
     onError: (error) => {
-      toast.error("Failed to add content", {
+      toast.danger("Failed to add content", {
         description: getErrorMessage(error),
       });
     },
@@ -165,7 +165,7 @@ export function useUpdateModuleContent(moduleId: string) {
       queryClient.invalidateQueries({ queryKey: ["module-contents", moduleId] });
     },
     onError: (error) => {
-      toast.error("Failed to update content", {
+      toast.danger("Failed to update content", {
         description: getErrorMessage(error),
       });
     },
@@ -186,7 +186,7 @@ export function useDeleteModuleContent(moduleId: string) {
       queryClient.invalidateQueries({ queryKey: ["module-contents", moduleId] });
     },
     onError: (error) => {
-      toast.error("Failed to delete content", {
+      toast.danger("Failed to delete content", {
         description: getErrorMessage(error),
       });
     },

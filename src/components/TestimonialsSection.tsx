@@ -1,5 +1,3 @@
-import { Card, CardContent } from "~/components/ui/card";
-import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Star, Quote } from "lucide-react";
 import { FadeIn } from "~/components/ui/fade-in";
 

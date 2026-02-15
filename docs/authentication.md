@@ -284,7 +284,7 @@ export function useUpdateUserProfile() {
       refetchSession(); // Refresh session after profile update
     },
     onError: () => {
-      toast.error("Failed to update profile");
+      toast.danger("Failed to update profile");
     },
   });
 }

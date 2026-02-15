@@ -271,7 +271,7 @@ export function useCreateSong() {
       navigate({ to: `/song/$songId`, params: { songId: song.id } });
     },
     onError: (error) => {
-      toast.error("Failed to create song");
+      toast.danger("Failed to create song");
     },
   });
 }

@@ -16,8 +16,7 @@ import { Page } from "~/components/Page";
 import { PageTitle } from "~/components/PageTitle";
 import { AppBreadcrumb } from "~/components/AppBreadcrumb";
 import { EmptyState } from "~/components/EmptyState";
-import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
+import { Button, Chip } from "@heroui/react";
 import { Panel } from "~/components/ui/panel";
 import { recentPostsQueryOptions } from "~/queries/posts";
 import { postCommentCountQueryOptions } from "~/queries/comments";
@@ -62,9 +61,7 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
   const pinPost = usePinPost();
   const isOwner = session?.user?.id === post.userId;
 
-  const handlePinClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handlePinClick = () => {
     pinPost.mutate({ id: post.id, isPinned: !post.isPinned });
   };
 
@@ -90,15 +87,11 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
     return content.slice(0, maxLength).trim() + "...";
   };
 
-  const handleDeleteClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleDeleteClick = () => {
     setDeleteDialogOpen(true);
   };
 
-  const handleEditClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleEditClick = () => {
     window.location.href = `/dashboard/community/post/${post.id}/edit`;
   };
 
@@ -125,13 +118,14 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
                 {formatRelativeTime(new Date(post.createdAt).toISOString())}
               </span>
               {post.isPinned && (
-                <Badge
+                <Chip
                   variant="secondary"
+                  color="accent"
                   className="text-xs px-1.5 py-0 gap-1 bg-primary/10 text-primary border-primary/20"
                 >
                   <Pin className="h-3 w-3" />
                   Pinned
-                </Badge>
+                </Chip>
               )}
             </div>
 
@@ -166,20 +160,20 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 flex-wrap">
                 {post.category && (
-                  <Badge
-                    variant="outline"
+                  <Chip
+                    variant="tertiary"
                     className={`text-xs capitalize ${getCategoryColor(post.category)}`}
                   >
                     {post.category}
-                  </Badge>
+                  </Chip>
                 )}
                 {post.isQuestion && (
-                  <Badge
-                    variant="outline"
+                  <Chip
+                    variant="tertiary"
                     className="text-xs bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20"
                   >
                     Question
-                  </Badge>
+                  </Chip>
                 )}
               </div>
               <div className="flex items-center gap-3">
@@ -197,18 +191,15 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
 
             <div className="mt-3 pt-3 border-t border-border/50">
               <Button
-                asChild
                 variant="outline"
                 size="sm"
                 className="w-full bg-background/30 hover:bg-background/50"
+                onPress={() => {
+                  window.location.href = `/dashboard/community/post/${post.id}`;
+                }}
               >
-                <Link
-                  to="/dashboard/community/post/$postId"
-                  params={{ postId: post.id }}
-                >
-                  View Post
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Link>
+                View Post
+                <ArrowRight className="h-4 w-4 ml-2" />
               </Button>
             </div>
           </div>
@@ -221,9 +212,10 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
                 size="sm"
                 variant="ghost"
                 className={`h-8 w-8 p-0 ${post.isPinned ? "text-primary hover:text-primary" : ""} hover:bg-accent`}
-                onClick={handlePinClick}
-                disabled={pinPost.isPending}
-                title={post.isPinned ? "Unpin post" : "Pin post"}
+                isIconOnly
+                onPress={handlePinClick}
+                isDisabled={pinPost.isPending}
+                aria-label={post.isPinned ? "Unpin post" : "Pin post"}
               >
                 {post.isPinned ? (
                   <PinOff className="h-4 w-4" />
@@ -238,8 +230,9 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
                   size="sm"
                   variant="ghost"
                   className="h-8 w-8 p-0 hover:bg-accent"
-                  onClick={handleEditClick}
-                  title="Edit post"
+                  isIconOnly
+                  onPress={handleEditClick}
+                  aria-label="Edit post"
                 >
                   <Edit className="h-4 w-4" />
                 </Button>
@@ -247,8 +240,9 @@ function PostCard({ post, isAdmin }: { post: PostWithUser; isAdmin: boolean }) {
                   size="sm"
                   variant="ghost"
                   className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                  onClick={handleDeleteClick}
-                  title="Delete post"
+                  isIconOnly
+                  onPress={handleDeleteClick}
+                  aria-label="Delete post"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -323,7 +317,7 @@ function Community() {
       <div className="space-y-8">
         <AppBreadcrumb
           items={[
-            { label: "Dashboard", href: "/dashboard", icon: Home },
+            { label: "Dashboard", to: "/dashboard", icon: Home },
             { label: "Community", icon: Users },
           ]}
         />
@@ -333,14 +327,12 @@ function Community() {
             title="Recent Posts"
             description="Stay connected with the community"
           />
-          <Button asChild className="bg-primary/90 hover:bg-primary">
-            <Link
-              to="/dashboard/community/create-post"
-              className="flex items-center gap-2"
-            >
-              <Plus className="h-4 w-4" />
-              Create Post
-            </Link>
+          <Button
+            className="bg-primary/90 hover:bg-primary"
+            onPress={() => navigate({ to: "/dashboard/community/create-post" })}
+          >
+            <Plus className="h-4 w-4" />
+            Create Post
           </Button>
         </div>
 

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import { updateUserProfileFn, deleteUserAccountFn } from "~/fn/storage";
 import {
   updateMyProfileFn,
@@ -22,7 +22,7 @@ export function useUpdateUserProfile() {
       refetchSession();
     },
     onError: () => {
-      toast.error("Failed to update profile");
+      toast.danger("Failed to update profile");
     },
   });
 }
@@ -41,7 +41,7 @@ export function useDeleteUserAccount() {
       window.location.reload();
     },
     onError: (error: Error) => {
-      toast.error(error.message || "Failed to delete account");
+      toast.danger(error.message || "Failed to delete account");
     },
   });
 }
@@ -67,7 +67,7 @@ export function useUpdateExtendedProfile() {
       queryClient.invalidateQueries({ queryKey: ["my-profile"] });
     },
     onError: () => {
-      toast.error("Failed to update profile");
+      toast.danger("Failed to update profile");
     },
   });
 }
@@ -83,7 +83,7 @@ export function useUpdateBio() {
       queryClient.invalidateQueries({ queryKey: ["my-profile"] });
     },
     onError: () => {
-      toast.error("Failed to update bio");
+      toast.danger("Failed to update bio");
     },
   });
 }
@@ -99,7 +99,7 @@ export function useUpdateSkills() {
       queryClient.invalidateQueries({ queryKey: ["my-profile"] });
     },
     onError: () => {
-      toast.error("Failed to update skills");
+      toast.danger("Failed to update skills");
     },
   });
 }
@@ -115,7 +115,7 @@ export function useToggleProfileVisibility() {
       queryClient.invalidateQueries({ queryKey: ["my-profile"] });
     },
     onError: () => {
-      toast.error("Failed to update profile visibility");
+      toast.danger("Failed to update profile visibility");
     },
   });
 }

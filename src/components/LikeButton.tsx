@@ -1,5 +1,5 @@
 import { Heart } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import { cn } from "~/lib/utils";
 
 interface LikeButtonProps {
@@ -19,24 +19,20 @@ export function LikeButton({
   size = "default",
   className,
 }: LikeButtonProps) {
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onClick();
-  };
-
   return (
     <Button
       variant="ghost"
-      size={size === "sm" ? "sm" : "sm"}
+      size={size === "sm" ? "sm" : "md"}
       className={cn(
         "gap-1 text-muted-foreground hover:text-foreground transition-colors",
         size === "sm" && "h-7 text-xs",
         isLiked && "text-red-500 hover:text-red-600",
         className
       )}
-      onClick={handleClick}
-      disabled={isLoading}
+      onPress={() => {
+        onClick();
+      }}
+      isDisabled={isLoading}
     >
       <Heart
         className={cn(

@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   createPortfolioItemFn,
   updatePortfolioItemFn,
@@ -37,7 +37,7 @@ export function useCreatePortfolioItem() {
       queryClient.invalidateQueries({ queryKey: ["my-portfolio"] });
     },
     onError: () => {
-      toast.error("Failed to create portfolio item");
+      toast.danger("Failed to create portfolio item");
     },
   });
 }
@@ -54,7 +54,7 @@ export function useUpdatePortfolioItem() {
       queryClient.invalidateQueries({ queryKey: ["portfolio-item", data.id] });
     },
     onError: () => {
-      toast.error("Failed to update portfolio item");
+      toast.danger("Failed to update portfolio item");
     },
   });
 }
@@ -70,7 +70,7 @@ export function useDeletePortfolioItem() {
       queryClient.invalidateQueries({ queryKey: ["my-portfolio"] });
     },
     onError: () => {
-      toast.error("Failed to delete portfolio item");
+      toast.danger("Failed to delete portfolio item");
     },
   });
 }

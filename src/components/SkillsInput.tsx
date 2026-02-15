@@ -1,8 +1,6 @@
 import { useState, KeyboardEvent } from "react";
 import { X, Plus } from "lucide-react";
-import { Input } from "~/components/ui/input";
-import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
+import { Button, Chip, Input } from "@heroui/react";
 
 interface SkillsInputProps {
   skills: string[];
@@ -54,23 +52,19 @@ export function SkillsInput({
       {skills.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {skills.map((skill) => (
-            <Badge
-              key={skill}
-              variant="secondary"
-              className="px-3 py-1.5 text-sm font-medium bg-primary/10 text-primary hover:bg-primary/20 transition-colors group"
-            >
+            <Chip key={skill} size="sm">
               {skill}
               {!disabled && (
                 <button
                   type="button"
                   onClick={() => removeSkill(skill)}
-                  className="ml-2 hover:text-destructive transition-colors"
+                  className="ml-2 text-muted-foreground hover:text-foreground transition-colors"
                   aria-label={`Remove ${skill}`}
                 >
                   <X className="h-3 w-3" />
                 </button>
               )}
-            </Badge>
+            </Chip>
           ))}
         </div>
       )}
@@ -90,9 +84,10 @@ export function SkillsInput({
           <Button
             type="button"
             variant="outline"
-            size="icon"
-            onClick={addSkill}
-            disabled={disabled || !inputValue.trim()}
+            isIconOnly
+            size="sm"
+            onPress={addSkill}
+            isDisabled={disabled || !inputValue.trim()}
           >
             <Plus className="h-4 w-4" />
           </Button>

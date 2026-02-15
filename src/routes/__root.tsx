@@ -16,7 +16,7 @@ import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
 import { Header } from "~/components/Header";
 import { ThemeProvider } from "~/components/theme-provider";
-import { Toaster } from "~/components/ui/sonner";
+import { Toaster } from "~/components/ui/toast";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import { Footer } from "~/components/Footer";
@@ -141,8 +141,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 
                 root.classList.add(resolvedTheme);
                 
-                // Add data attribute for debugging
-                root.setAttribute('data-theme', theme || 'system');
+                // Add data attributes for HeroUI + debugging
+                root.setAttribute('data-theme', resolvedTheme);
+                root.setAttribute('data-theme-preference', theme || 'system');
                 root.setAttribute('data-resolved-theme', resolvedTheme);
               })();
             `,
@@ -150,11 +151,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
         <style>{`
           #nprogress .bar {
-            background: var(--primary) !important;
+            background: var(--accent) !important;
             height: 3px;
           }
           #nprogress .peg {
-            box-shadow: 0 0 10px var(--primary), 0 0 5px var(--primary);
+            box-shadow: 0 0 10px var(--accent), 0 0 5px var(--accent);
           }
           #nprogress .spinner-icon {
             display: none;

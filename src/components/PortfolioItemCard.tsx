@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { ExternalLink, Pencil, Trash2, Image as ImageIcon } from "lucide-react";
-
-// Constants
-const MAX_VISIBLE_TECHNOLOGIES = 5;
-import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
+import { Button, Chip, Modal } from "@heroui/react";
 import {
   Panel,
   PanelContent,
@@ -12,17 +8,11 @@ import {
   PanelHeader,
   PanelTitle,
 } from "~/components/ui/panel";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
 import { useDeletePortfolioItem } from "~/hooks/usePortfolio";
 import { useImageUrl } from "~/hooks/useStorage";
 import type { PortfolioItem } from "~/db/schema";
+
+const MAX_VISIBLE_TECHNOLOGIES = 5;
 
 interface PortfolioItemCardProps {
   item: PortfolioItem;
@@ -75,7 +65,7 @@ export function PortfolioItemCard({
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => onEdit(item)}
+                  onPress={() => onEdit(item)}
                   className="shadow-lg"
                 >
                   <Pencil className="h-4 w-4 mr-1" />
@@ -83,9 +73,9 @@ export function PortfolioItemCard({
                 </Button>
               )}
               <Button
-                variant="destructive"
+                variant="danger"
                 size="sm"
-                onClick={() => setDeleteDialogOpen(true)}
+                onPress={() => setDeleteDialogOpen(true)}
                 className="shadow-lg"
               >
                 <Trash2 className="h-4 w-4 mr-1" />
@@ -124,21 +114,14 @@ export function PortfolioItemCard({
               {item.technologies
                 .slice(0, MAX_VISIBLE_TECHNOLOGIES)
                 .map((tech) => (
-                  <Badge
-                    key={tech}
-                    variant="secondary"
-                    className="text-xs px-2 py-0.5 bg-primary/10 text-primary border-0"
-                  >
+                  <Chip key={tech} size="sm" className="text-xs">
                     {tech}
-                  </Badge>
+                  </Chip>
                 ))}
               {item.technologies.length > MAX_VISIBLE_TECHNOLOGIES && (
-                <Badge
-                  variant="secondary"
-                  className="text-xs px-2 py-0.5 bg-muted text-muted-foreground border-0"
-                >
+                <Chip size="sm" className="text-xs">
                   +{item.technologies.length - MAX_VISIBLE_TECHNOLOGIES}
-                </Badge>
+                </Chip>
               )}
             </div>
           </PanelContent>
@@ -146,33 +129,36 @@ export function PortfolioItemCard({
       </Panel>
 
       {/* Delete confirmation dialog */}
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Portfolio Item</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete "{item.title}"? This action cannot
-              be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setDeleteDialogOpen(false)}
-              disabled={deleteMutation.isPending}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={deleteMutation.isPending}
-            >
-              {deleteMutation.isPending ? "Deleting..." : "Delete"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <Modal>
+        <Modal.Backdrop isOpen={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <Modal.Container>
+            <Modal.Dialog className="sm:max-w-md">
+              <Modal.Header>
+                <Modal.Heading>Delete Portfolio Item</Modal.Heading>
+                <p className="text-sm text-muted-foreground">
+                  Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                </p>
+              </Modal.Header>
+              <Modal.Footer>
+                <Button
+                  variant="outline"
+                  slot="close"
+                  isDisabled={deleteMutation.isPending}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="danger"
+                  onPress={handleDelete}
+                  isDisabled={deleteMutation.isPending}
+                >
+                  {deleteMutation.isPending ? "Deleting..." : "Delete"}
+                </Button>
+              </Modal.Footer>
+            </Modal.Dialog>
+          </Modal.Container>
+        </Modal.Backdrop>
+      </Modal>
     </>
   );
 }

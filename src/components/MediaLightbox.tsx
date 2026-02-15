@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from "react";
 import { X, ChevronLeft, ChevronRight, Play, Loader2 } from "lucide-react";
 import { cn } from "~/lib/utils";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import type { PostAttachment } from "~/db/schema";
 import { useAttachmentUrl } from "~/hooks/useAttachments";
 
@@ -174,10 +174,9 @@ export function MediaLightbox({
       {/* Close button */}
       <Button
         variant="ghost"
-        size="icon"
+        isIconOnly
         className="absolute top-4 right-4 z-10 text-white hover:bg-white/10"
-        onClick={(e) => {
-          e.stopPropagation();
+        onPress={() => {
           onClose();
         }}
       >
@@ -188,10 +187,9 @@ export function MediaLightbox({
       {showNavigation && (
         <Button
           variant="ghost"
-          size="icon"
+          isIconOnly
           className="absolute left-4 z-10 text-white hover:bg-white/10 h-12 w-12"
-          onClick={(e) => {
-            e.stopPropagation();
+          onPress={() => {
             handlePrevious();
           }}
         >
@@ -215,10 +213,9 @@ export function MediaLightbox({
       {showNavigation && (
         <Button
           variant="ghost"
-          size="icon"
+          isIconOnly
           className="absolute right-4 z-10 text-white hover:bg-white/10 h-12 w-12"
-          onClick={(e) => {
-            e.stopPropagation();
+          onPress={() => {
             handleNext();
           }}
         >

@@ -2,8 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useEffect } from "react";
-import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
+import { Button, TextArea } from "@heroui/react";
 import {
   Form,
   FormControl,
@@ -112,7 +111,7 @@ export function CommentForm({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Textarea
+                <TextArea
                   placeholder={placeholder}
                   className="min-h-[80px] resize-none"
                   disabled={createCommentMutation.isPending}
@@ -155,7 +154,7 @@ export function CommentForm({
         <div className="flex justify-end">
           <Button
             type="submit"
-            disabled={createCommentMutation.isPending}
+            isDisabled={createCommentMutation.isPending}
             size="sm"
           >
             {createCommentMutation.isPending ? (

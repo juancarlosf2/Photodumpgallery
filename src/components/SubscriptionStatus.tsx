@@ -1,6 +1,4 @@
-import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Button, Card, Chip } from "@heroui/react";
 import { Calendar, CreditCard, AlertTriangle } from "lucide-react";
 import { PlanBadge } from "./PlanBadge";
 import type { SubscriptionPlan, SubscriptionStatus as Status } from "~/db/schema";
@@ -32,20 +30,40 @@ export function SubscriptionStatus({
 
   const getStatusBadge = (status: Status | null | undefined) => {
     if (!status || status === "active") {
-      return <Badge variant="default">Active</Badge>;
+      return <Chip size="sm">Active</Chip>;
     }
     
     switch (status) {
       case "canceled":
-        return <Badge variant="destructive">Canceled</Badge>;
+        return (
+          <Chip color="danger" size="sm">
+            Canceled
+          </Chip>
+        );
       case "past_due":
-        return <Badge variant="destructive">Past Due</Badge>;
+        return (
+          <Chip color="danger" size="sm">
+            Past Due
+          </Chip>
+        );
       case "unpaid":
-        return <Badge variant="destructive">Unpaid</Badge>;
+        return (
+          <Chip color="danger" size="sm">
+            Unpaid
+          </Chip>
+        );
       case "incomplete":
-        return <Badge variant="secondary">Incomplete</Badge>;
+        return (
+          <Chip color="warning" size="sm">
+            Incomplete
+          </Chip>
+        );
       default:
-        return <Badge variant="secondary">{status}</Badge>;
+        return (
+          <Chip size="sm">
+            {status}
+          </Chip>
+        );
     }
   };
 
@@ -62,22 +80,22 @@ export function SubscriptionStatus({
 
   return (
     <Card>
-      <CardHeader>
+      <Card.Header>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="flex items-center gap-2">
+            <Card.Title className="flex items-center gap-2">
               {getStatusIcon(subscriptionStatus)}
               Subscription Status
-            </CardTitle>
-            <CardDescription>
+            </Card.Title>
+            <Card.Description>
               Manage your current subscription and billing
-            </CardDescription>
+            </Card.Description>
           </div>
           <PlanBadge plan={plan} />
         </div>
-      </CardHeader>
+      </Card.Header>
       
-      <CardContent className="space-y-4">
+      <Card.Content className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium">Plan Status</p>
@@ -125,8 +143,8 @@ export function SubscriptionStatus({
         {isPaidPlan && isActive && (
           <div className="flex gap-2 pt-2 justify-end">
             <Button 
-              onClick={onManageBilling}
-              disabled={isLoading}
+              onPress={onManageBilling}
+              isDisabled={isLoading}
               variant="outline"
             >
               {isLoading ? "Loading..." : "Manage Billing"}
@@ -134,9 +152,9 @@ export function SubscriptionStatus({
             
             {subscriptionStatus !== "canceled" && (
               <Button 
-                onClick={onCancelSubscription}
-                disabled={isLoading}
-                variant="destructive"
+                onPress={onCancelSubscription}
+                isDisabled={isLoading}
+                variant="danger"
               >
                 {isLoading ? "Loading..." : "Cancel Subscription"}
               </Button>
@@ -151,7 +169,7 @@ export function SubscriptionStatus({
             </p>
           </div>
         )}
-      </CardContent>
+      </Card.Content>
     </Card>
   );
 }

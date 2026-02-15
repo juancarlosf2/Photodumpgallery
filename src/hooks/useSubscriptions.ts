@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   createCheckoutSessionFn,
   createPortalSessionFn,
@@ -26,13 +26,13 @@ export function useCreateCheckoutSession() {
         // Redirect to Stripe checkout
         window.location.href = result.data.sessionUrl;
       } else {
-        toast.error("Failed to create checkout session", {
+        toast.danger("Failed to create checkout session", {
           description: result.error || "Unknown error occurred",
         });
       }
     },
     onError: (error) => {
-      toast.error("Failed to create checkout session", {
+      toast.danger("Failed to create checkout session", {
         description: getErrorMessage(error),
       });
     },
@@ -47,13 +47,13 @@ export function useCreatePortalSession() {
         // Redirect to Stripe customer portal
         window.location.href = result.data.sessionUrl;
       } else {
-        toast.error("Failed to create portal session", {
+        toast.danger("Failed to create portal session", {
           description: result.error || "Unknown error occurred",
         });
       }
     },
     onError: (error) => {
-      toast.error("Failed to create portal session", {
+      toast.danger("Failed to create portal session", {
         description: getErrorMessage(error),
       });
     },
@@ -75,13 +75,13 @@ export function useCancelSubscription() {
         // Invalidate user plan to refresh subscription status
         queryClient.invalidateQueries({ queryKey: ["user-plan"] });
       } else {
-        toast.error("Failed to cancel subscription", {
+        toast.danger("Failed to cancel subscription", {
           description: result.error || "Unknown error occurred",
         });
       }
     },
     onError: (error) => {
-      toast.error("Failed to cancel subscription", {
+      toast.danger("Failed to cancel subscription", {
         description: getErrorMessage(error),
       });
     },

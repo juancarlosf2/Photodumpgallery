@@ -1,11 +1,11 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { authClient } from "~/lib/auth-client";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
+import { Button, Input } from "@heroui/react";
+import { Link } from "~/components/ui/link";
 import {
   Form,
   FormControl,
@@ -78,32 +78,32 @@ function RouteComponent() {
   return (
     <div className="container mx-auto relative min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <aside
-        className="relative hidden h-full flex-col bg-gradient-to-br from-orange-50 to-red-50 dark:from-slate-900 dark:to-slate-800 p-12 text-slate-800 dark:text-white lg:flex border-r border-border overflow-hidden"
+        className="relative hidden h-full flex-col bg-gradient-to-br from-background to-surface-secondary dark:from-surface dark:to-surface-secondary p-12 text-foreground lg:flex border-r border-border overflow-hidden"
         aria-label="SoundStation branding and platform information"
         role="complementary"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-red-600/8 via-orange-600/6 to-yellow-600/4 dark:from-red-600/6 dark:via-orange-600/4 dark:to-yellow-600/6" />
-        <div className="absolute top-32 right-32 h-48 w-48 rounded-full bg-gradient-to-br from-red-400/15 to-orange-400/10 dark:from-red-400/12 dark:to-orange-400/8 blur-2xl animate-pulse" />
-        <div className="absolute bottom-32 left-32 h-32 w-32 rounded-full bg-gradient-to-br from-orange-400/10 to-red-400/8 dark:from-orange-400/8 dark:to-red-400/6 blur-xl" />
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent dark:from-accent/12 dark:to-accent/5" />
+        <div className="absolute top-32 right-32 h-48 w-48 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 dark:from-accent/15 dark:to-accent/8 blur-2xl animate-pulse" />
+        <div className="absolute bottom-32 left-32 h-32 w-32 rounded-full bg-gradient-to-br from-accent/12 to-accent/8 dark:from-accent/10 dark:to-accent/6 blur-xl" />
 
         <header className="relative z-20 flex items-center text-xl font-semibold">
           <div
-            className="mr-4 rounded-xl bg-gradient-to-br from-red-500/25 to-orange-500/20 p-3 backdrop-blur-sm border border-red-200/30 dark:border-white/20 shadow-lg"
+            className="mr-4 rounded-xl bg-accent-soft p-3 backdrop-blur-sm border border-accent/20 shadow-sm"
             aria-hidden="true"
           >
-            <UserPlus className="h-6 w-6 text-red-600 dark:text-red-200" />
+            <UserPlus className="h-6 w-6 text-accent" />
           </div>
-          <h1 className="bg-gradient-to-r from-slate-800 via-red-700 to-orange-700 dark:from-white dark:via-red-50 dark:to-orange-50 bg-clip-text text-transparent font-bold">
+          <h1 className="bg-gradient-to-r from-foreground via-foreground to-accent bg-clip-text text-transparent font-bold">
             SoundStation
           </h1>
         </header>
 
         <main className="relative z-20 flex-1 flex flex-col justify-center">
           <div className="space-y-8 text-center">
-            <h2 className="text-4xl font-bold leading-tight bg-gradient-to-r from-slate-800 via-red-700 to-orange-700 dark:from-white dark:via-red-50 dark:to-orange-50 bg-clip-text text-transparent">
+            <h2 className="text-4xl font-bold leading-tight bg-gradient-to-r from-foreground via-foreground to-accent bg-clip-text text-transparent">
               Start creating
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 text-lg opacity-75">
+            <p className="text-muted-foreground text-lg opacity-85">
               Join thousands of developers sharing knowledge
             </p>
 
@@ -114,34 +114,34 @@ function RouteComponent() {
             >
               <div className="text-center">
                 <div
-                  className="text-2xl font-bold text-slate-800 dark:text-white"
+                  className="text-2xl font-bold text-foreground"
                   aria-label="50,000 plus creators"
                 >
                   50K+
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">
                   Creators
                 </div>
               </div>
               <div className="text-center">
                 <div
-                  className="text-2xl font-bold text-slate-800 dark:text-white"
+                  className="text-2xl font-bold text-foreground"
                   aria-label="2 million plus videos"
                 >
                   2M+
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">
                   Videos
                 </div>
               </div>
               <div className="text-center">
                 <div
-                  className="text-2xl font-bold text-slate-800 dark:text-white"
+                  className="text-2xl font-bold text-foreground"
                   aria-label="Free forever"
                 >
                   Free
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">
                   Forever
                 </div>
               </div>
@@ -151,7 +151,7 @@ function RouteComponent() {
 
         <footer className="relative z-20 mt-auto opacity-60">
           <div className="text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
+            <p className="text-sm text-muted-foreground">
               Start your creator journey today
             </p>
           </div>
@@ -187,6 +187,7 @@ function RouteComponent() {
                             placeholder="Enter your name"
                             type="text"
                             autoComplete="given-name"
+                            fullWidth
                             disabled={isLoading}
                             {...field}
                           />
@@ -208,6 +209,7 @@ function RouteComponent() {
                             autoComplete="email"
                             autoCapitalize="none"
                             autoCorrect="off"
+                            fullWidth
                             disabled={isLoading}
                             {...field}
                           />
@@ -223,20 +225,24 @@ function RouteComponent() {
                       <FormItem>
                         <FormLabel>Password</FormLabel>
                         <FormControl>
-                          <div className="relative">
+                          <div className="relative w-full">
                             <Input
                               placeholder="Create a password"
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
+                              fullWidth
                               disabled={isLoading}
-                              className="pr-10"
+                              className="w-full pr-10"
                               {...field}
                             />
-                            <button
+                            <Button
                               type="button"
-                              onClick={() => setShowPassword(!showPassword)}
-                              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                              disabled={isLoading}
+                              onPress={() => setShowPassword(!showPassword)}
+                              variant="ghost"
+                              size="sm"
+                              isIconOnly
+                              className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground hover:bg-default hover:text-foreground transition-colors"
+                              isDisabled={isLoading}
                               aria-label={
                                 showPassword ? "Hide password" : "Show password"
                               }
@@ -246,7 +252,7 @@ function RouteComponent() {
                               ) : (
                                 <Eye className="h-4 w-4" />
                               )}
-                            </button>
+                            </Button>
                           </div>
                         </FormControl>
                         <FormMessage />
@@ -254,9 +260,10 @@ function RouteComponent() {
                     )}
                   />
                   <Button
-                    disabled={isLoading}
+                    isDisabled={isLoading}
                     type="submit"
-                    className="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-medium"
+                    variant="primary"
+                    className="w-full transform transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] font-medium"
                   >
                     {isLoading && (
                       <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
@@ -279,7 +286,7 @@ function RouteComponent() {
             <Button
               variant="outline"
               type="button"
-              disabled={isLoading}
+              isDisabled={isLoading}
               className="transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] border-muted-foreground/20 hover:border-muted-foreground/40"
             >
               {isLoading ? (

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
+import { Button, TextArea } from "@heroui/react";
 import { useSendMessage } from "~/hooks/useMessages";
 
 interface MessageInputProps {
@@ -56,7 +55,7 @@ export function MessageInput({ conversationId }: MessageInputProps) {
       className="border-t border-border p-4 bg-background"
     >
       <div className="flex items-end gap-2">
-        <Textarea
+        <TextArea
           ref={textareaRef}
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -68,8 +67,9 @@ export function MessageInput({ conversationId }: MessageInputProps) {
         />
         <Button
           type="submit"
-          size="icon"
-          disabled={!content.trim() || sendMessage.isPending}
+          isIconOnly
+          size="sm"
+          isDisabled={!content.trim() || sendMessage.isPending}
           className="shrink-0 h-11 w-11"
         >
           {sendMessage.isPending ? (

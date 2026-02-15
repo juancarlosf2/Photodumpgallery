@@ -4,9 +4,7 @@ import { z } from "zod";
 import { Loader2, Plus, Video, FileText, Image, File, CheckSquare } from "lucide-react";
 import { useState } from "react";
 import { MODULE_CONTENT_TYPES, type ModuleContentType } from "~/fn/modules";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import { Button, Input, ListBox, Select, TextArea } from "@heroui/react";
 import {
   Form,
   FormControl,
@@ -16,13 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { useGetUploadUrl, useConfirmUpload } from "~/hooks/useStorage";
 
 export const contentFormSchema = z.object({
@@ -180,28 +171,36 @@ export function ContentForm({
             <FormItem>
               <FormLabel className="text-base font-medium">Content Type *</FormLabel>
               <Select
-                onValueChange={field.onChange}
                 value={field.value}
-                disabled={isSubmitting}
+                onChange={(key) => field.onChange(key as ModuleContentType)}
+                isDisabled={isSubmitting}
+                placeholder="Select content type"
               >
                 <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select content type" />
-                  </SelectTrigger>
+                  <Select.Trigger className="w-full">
+                    <Select.Value />
+                    <Select.Indicator />
+                  </Select.Trigger>
                 </FormControl>
-                <SelectContent>
-                  {MODULE_CONTENT_TYPES.map((type) => {
-                    const TypeIcon = CONTENT_TYPE_ICONS[type];
-                    return (
-                      <SelectItem key={type} value={type}>
-                        <div className="flex items-center gap-2">
-                          <TypeIcon className="h-4 w-4" />
-                          <span>{CONTENT_TYPE_LABELS[type]}</span>
-                        </div>
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
+                <Select.Popover>
+                  <ListBox>
+                    {MODULE_CONTENT_TYPES.map((type) => {
+                      const TypeIcon = CONTENT_TYPE_ICONS[type];
+                      return (
+                        <ListBox.Item
+                          key={type}
+                          id={type}
+                          textValue={CONTENT_TYPE_LABELS[type]}
+                        >
+                          <div className="flex items-center gap-2">
+                            <TypeIcon className="h-4 w-4" />
+                            <span>{CONTENT_TYPE_LABELS[type]}</span>
+                          </div>
+                        </ListBox.Item>
+                      );
+                    })}
+                  </ListBox>
+                </Select.Popover>
               </Select>
               <FormDescription>
                 {CONTENT_TYPE_DESCRIPTIONS[field.value]}
@@ -242,7 +241,7 @@ export function ContentForm({
                 Description
               </FormLabel>
               <FormControl>
-                <Textarea
+                <TextArea
                   placeholder="Brief description (optional)"
                   className="min-h-[80px] text-base resize-none"
                   disabled={isSubmitting}
@@ -323,7 +322,7 @@ export function ContentForm({
                   Content *
                 </FormLabel>
                 <FormControl>
-                  <Textarea
+                  <TextArea
                     placeholder={
                       contentType === "task"
                         ? "Describe the task or assignment..."
@@ -347,13 +346,13 @@ export function ContentForm({
                 type="button"
                 variant="outline"
                 className="flex-1"
-                disabled={isSubmitting}
-                onClick={onCancel}
+                isDisabled={isSubmitting}
+                onPress={onCancel}
               >
                 {cancelLabel}
               </Button>
             )}
-            <Button type="submit" className="flex-1" disabled={isSubmitting}>
+            <Button type="submit" className="flex-1" isDisabled={isSubmitting}>
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

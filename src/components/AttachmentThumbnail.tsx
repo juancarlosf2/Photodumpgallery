@@ -1,6 +1,6 @@
 import { Loader2, Film, X } from "lucide-react";
 import { cn } from "~/lib/utils";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import type { PostAttachment } from "~/db/schema";
 import type { MediaUploadResult } from "~/utils/storage/media-helpers";
 
@@ -120,13 +120,12 @@ export function AttachmentThumbnail({
       {showDelete && onDelete && (
         <Button
           type="button"
-          variant="destructive"
-          size="icon"
-          onClick={(e) => {
-            e.stopPropagation();
+          variant="danger"
+          isIconOnly
+          onPress={() => {
             onDelete();
           }}
-          disabled={deleteDisabled}
+          isDisabled={deleteDisabled}
           className={cn(
             "absolute top-0.5 right-0.5 opacity-0 group-hover:opacity-100 transition-opacity",
             size === "sm" ? "h-4 w-4" : size === "md" ? "h-4 w-4" : "h-5 w-5"

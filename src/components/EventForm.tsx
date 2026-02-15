@@ -3,9 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loader2, Calendar, Link as LinkIcon } from "lucide-react";
 import { EVENT_TYPES } from "~/fn/events";
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
+import { Button, Input, ListBox, Select, TextArea } from "@heroui/react";
 import {
   Form,
   FormControl,
@@ -15,13 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "~/components/ui/select";
 import { localDateTimeToISO } from "~/utils/date";
 
 export const eventFormSchema = z.object({
@@ -149,24 +140,34 @@ export function EventForm({
             <FormItem>
               <FormLabel className="text-base font-medium">Event Type</FormLabel>
               <Select
-                onValueChange={field.onChange}
                 value={field.value}
-                disabled={isPending}
+                onChange={(key) =>
+                  field.onChange(key as EventFormData["eventType"])
+                }
+                isDisabled={isPending}
+                placeholder="Select event type"
               >
                 <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select event type" />
-                  </SelectTrigger>
+                  <Select.Trigger className="w-full">
+                    <Select.Value />
+                    <Select.Indicator />
+                  </Select.Trigger>
                 </FormControl>
-                <SelectContent>
-                  {EVENT_TYPES.map((type) => (
-                    <SelectItem key={type} value={type}>
-                      <div className="flex flex-col">
-                        <span>{EVENT_TYPE_LABELS[type]}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
+                <Select.Popover>
+                  <ListBox>
+                    {EVENT_TYPES.map((type) => (
+                      <ListBox.Item
+                        key={type}
+                        id={type}
+                        textValue={EVENT_TYPE_LABELS[type]}
+                      >
+                        <div className="flex flex-col">
+                          <span>{EVENT_TYPE_LABELS[type]}</span>
+                        </div>
+                      </ListBox.Item>
+                    ))}
+                  </ListBox>
+                </Select.Popover>
               </Select>
               <FormDescription>
                 {EVENT_TYPE_DESCRIPTIONS[field.value]}
@@ -229,7 +230,7 @@ export function EventForm({
                 Description
               </FormLabel>
               <FormControl>
-                <Textarea
+                <TextArea
                   placeholder="Event description (optional)"
                   className="min-h-[120px] text-base resize-none"
                   disabled={isPending}
@@ -278,13 +279,13 @@ export function EventForm({
                 type="button"
                 variant="outline"
                 className="flex-1"
-                disabled={isPending}
-                onClick={onCancel}
+                isDisabled={isPending}
+                onPress={onCancel}
               >
                 {cancelLabel}
               </Button>
             )}
-            <Button type="submit" className="flex-1" disabled={isPending}>
+            <Button type="submit" className="flex-1" isDisabled={isPending}>
               {isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />

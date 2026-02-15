@@ -27,8 +27,13 @@ function CreatePost() {
       <div className="space-y-8">
         <AppBreadcrumb
           items={[
-            { label: "Dashboard", href: "/dashboard" },
-            { label: "Community", href: "/dashboard/community", search: { category: undefined }, icon: Users },
+            { label: "Dashboard", to: "/dashboard" },
+            {
+              label: "Community",
+              to: "/dashboard/community",
+              search: { category: undefined },
+              icon: Users,
+            },
             { label: "Create Post" },
           ]}
         />

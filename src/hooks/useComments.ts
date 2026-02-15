@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   postCommentsQueryOptions,
   commentRepliesQueryOptions,
@@ -97,7 +97,7 @@ export function useCreateComment() {
       });
     },
     onError: (error) => {
-      toast.error("Failed to post comment", {
+      toast.danger("Failed to post comment", {
         description: getErrorMessage(error),
       });
     },
@@ -139,7 +139,7 @@ export function useUpdateComment() {
       });
     },
     onError: (error) => {
-      toast.error("Failed to update comment", {
+      toast.danger("Failed to update comment", {
         description: getErrorMessage(error),
       });
     },
@@ -159,7 +159,7 @@ export function useDeleteComment() {
       queryClient.invalidateQueries({ queryKey: ["post-comment-count"] });
     },
     onError: (error) => {
-      toast.error("Failed to delete comment", {
+      toast.danger("Failed to delete comment", {
         description: getErrorMessage(error),
       });
     },

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Video, FileText, Image, File, CheckSquare, Trash2, ExternalLink } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { Button } from "@heroui/react";
 import { moduleContentsQueryOptions } from "~/queries/modules";
 import { useDeleteModuleContent } from "~/hooks/useModules";
 import { ConfirmDeleteDialog } from "~/components/ConfirmDeleteDialog";
@@ -154,8 +154,9 @@ function ContentItem({ content, isAdmin, moduleId }: ContentItemProps) {
             <Button
               variant="ghost"
               size="sm"
+              isIconOnly
               className="text-destructive hover:text-destructive shrink-0"
-              onClick={() => setDeleteDialogOpen(true)}
+              onPress={() => setDeleteDialogOpen(true)}
             >
               <Trash2 className="h-4 w-4" />
             </Button>

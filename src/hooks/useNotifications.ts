@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   notificationsQueryOptions,
   recentNotificationsQueryOptions,
@@ -42,7 +42,7 @@ export function useMarkAsRead() {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
     },
     onError: (error) => {
-      toast.error("Failed to mark notification as read", {
+      toast.danger("Failed to mark notification as read", {
         description: getErrorMessage(error),
       });
     },
@@ -62,7 +62,7 @@ export function useMarkAllAsRead() {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });
     },
     onError: (error) => {
-      toast.error("Failed to mark notifications as read", {
+      toast.danger("Failed to mark notifications as read", {
         description: getErrorMessage(error),
       });
     },

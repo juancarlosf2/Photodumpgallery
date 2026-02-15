@@ -6,7 +6,7 @@ import { Page } from "~/components/Page";
 import { PageTitle } from "~/components/PageTitle";
 import { AppBreadcrumb } from "~/components/AppBreadcrumb";
 import { EmptyState } from "~/components/EmptyState";
-import { Input } from "~/components/ui/input";
+import { Input } from "@heroui/react";
 import { Panel } from "~/components/ui/panel";
 import { MemberCard } from "~/components/MemberCard";
 import { getMembersQuery } from "~/queries/members";
@@ -67,7 +67,7 @@ function Members() {
       <div className="space-y-8">
         <AppBreadcrumb
           items={[
-            { label: "Dashboard", href: "/dashboard", icon: Home },
+            { label: "Dashboard", to: "/dashboard", icon: Home },
             { label: "Members", icon: Users },
           ]}
         />

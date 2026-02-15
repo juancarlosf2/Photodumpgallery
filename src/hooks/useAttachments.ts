@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { toast } from "@heroui/react";
 import {
   getPostAttachmentsFn,
   getCommentAttachmentsFn,
@@ -84,7 +84,7 @@ export function useSavePostAttachments() {
       });
     },
     onError: (error) => {
-      toast.error("Failed to save attachments", {
+      toast.danger("Failed to save attachments", {
         description: getErrorMessage(error),
       });
     },
@@ -104,7 +104,7 @@ export function useSaveCommentAttachments() {
       });
     },
     onError: (error) => {
-      toast.error("Failed to save attachments", {
+      toast.danger("Failed to save attachments", {
         description: getErrorMessage(error),
       });
     },
@@ -122,7 +122,7 @@ export function useDeleteAttachment() {
       queryClient.invalidateQueries({ queryKey: ["comment-attachments"] });
     },
     onError: (error) => {
-      toast.error("Failed to delete attachment", {
+      toast.danger("Failed to delete attachment", {
         description: getErrorMessage(error),
       });
     },

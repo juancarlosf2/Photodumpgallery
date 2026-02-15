@@ -4,9 +4,7 @@ import { useState } from "react";
 import { Home, Users, Clock, Trash2, Edit, Pin, PinOff } from "lucide-react";
 import { Page } from "~/components/Page";
 import { AppBreadcrumb } from "~/components/AppBreadcrumb";
-import { Badge } from "~/components/ui/badge";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
+import { Button, Card, Chip } from "@heroui/react";
 import { postQueryOptions } from "~/queries/posts";
 import { formatRelativeTime } from "~/utils/song";
 import { authClient } from "~/lib/auth-client";
@@ -30,16 +28,17 @@ export const Route = createFileRoute("/dashboard/community/post/$postId/")({
   component: PostDetail,
 });
 
-function getCategoryVariant(
-  category: string | null
-): "default" | "secondary" | "outline" {
+function getCategoryChipProps(category: string | null): {
+  variant: "primary" | "secondary" | "tertiary";
+  color: "accent" | "warning" | "default";
+} {
   switch (category) {
     case "announcement":
-      return "default";
+      return { variant: "primary", color: "accent" };
     case "question":
-      return "secondary";
+      return { variant: "secondary", color: "warning" };
     default:
-      return "outline";
+      return { variant: "tertiary", color: "default" };
   }
 }
 
@@ -66,10 +65,10 @@ function PostDetail() {
   };
 
   const breadcrumbItems = [
-    { label: "Dashboard", href: "/dashboard" },
+    { label: "Dashboard", to: "/dashboard" },
     {
       label: "Community",
-      href: "/dashboard/community",
+      to: "/dashboard/community",
       search: { category: undefined },
       icon: Users,
     },
@@ -121,21 +120,21 @@ function PostDetail() {
 
         {/* Main Post */}
         <Card>
-          <CardHeader className="space-y-4">
+          <Card.Header className="space-y-4">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 space-y-4">
                 {/* Category and Pinned Badges */}
                 <div className="flex items-center gap-2 flex-wrap">
                   {post.category && (
-                    <Badge variant={getCategoryVariant(post.category)}>
+                    <Chip {...getCategoryChipProps(post.category)}>
                       {post.category}
-                    </Badge>
+                    </Chip>
                   )}
                   {post.isPinned && (
-                    <Badge variant="secondary" className="gap-1">
+                    <Chip variant="secondary" color="accent" className="gap-1">
                       <Pin className="h-3 w-3" />
                       Pinned
-                    </Badge>
+                    </Chip>
                   )}
                 </div>
 
@@ -178,10 +177,11 @@ function PostDetail() {
                     <Button
                       variant="ghost"
                       size="sm"
+                      isIconOnly
                       className={`${post.isPinned ? "text-primary hover:text-primary" : ""} hover:bg-accent`}
-                      onClick={handlePinClick}
-                      disabled={pinPost.isPending}
-                      title={post.isPinned ? "Unpin post" : "Pin post"}
+                      onPress={handlePinClick}
+                      isDisabled={pinPost.isPending}
+                      aria-label={post.isPinned ? "Unpin post" : "Pin post"}
                     >
                       {post.isPinned ? (
                         <PinOff className="h-4 w-4" />
@@ -195,18 +195,20 @@ function PostDetail() {
                       <Button
                         variant="ghost"
                         size="sm"
+                        isIconOnly
                         className="hover:bg-accent"
-                        onClick={handleEditClick}
-                        title="Edit post"
+                        onPress={handleEditClick}
+                        aria-label="Edit post"
                       >
                         <Edit className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
+                        isIconOnly
                         className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                        onClick={() => setDeleteDialogOpen(true)}
-                        title="Delete post"
+                        onPress={() => setDeleteDialogOpen(true)}
+                        aria-label="Delete post"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -215,9 +217,9 @@ function PostDetail() {
                 </div>
               )}
             </div>
-          </CardHeader>
+          </Card.Header>
 
-          <CardContent className="space-y-4">
+          <Card.Content className="space-y-4">
             {/* Post Content */}
             <div className="prose prose-neutral dark:prose-invert max-w-none">
               <p className="whitespace-pre-wrap text-foreground leading-relaxed">
@@ -240,7 +242,7 @@ function PostDetail() {
             <div className="pt-2 border-t border-border">
               <PostLikeButton postId={post.id} />
             </div>
-          </CardContent>
+          </Card.Content>
         </Card>
 
         {/* Comments Section */}
